@@ -222,6 +222,7 @@ jQuery( function ( $ ) {
 					endDate     = self.dom.endDate.val(),
 					peopleCount = persons,
 					time        = self.dom.time.val(),
+					endTime		= self.dom.endTime.val(),
 					validation  = true,
 					formData    = {},
 					errors      = [];
@@ -480,71 +481,64 @@ jQuery( function ( $ ) {
 				var newDuration = Math.floor( self.dom.realDuration.val() / self.getDuration() );
 				self.dom.duration.val( newDuration ).trigger( 'change' );
 			},
-			maybeLoadTimeSlots             = function ( options ) {
+			maybeLoadTimeSlots = function (options) {
 				var defaults = {
 					updateFormOnCompleteOnlyIfValid: false
 				};
 
 				options = typeof options !== 'undefined' ? options : {};
-				options = $.extend( {}, defaults, options );
+				options = $.extend({}, defaults, options);
 
-				var loaded   = false,
-					data     = validateForm(),
+				var loaded = false,
+					data = validateForm(),
 					duration = data.formData.duration || 0,
-					date     = data.formData.from_date || false,
-					time     = data.formData.time || false,
+					date = data.formData.from_date || false,
+					time = data.formData.time || false,
 					postData = data.formData;
 
-				if ( self.hasTime() && date && duration ) {
-
+				if (self.hasTime() && date && duration) {
 					postData.request = 'get_booking_available_times';
 
-					if ( self.ajaxCall ) {
+					if (self.ajaxCall) {
 						self.ajaxCall.abort();
 					}
 
 					loaded = true;
 
-					self.ajaxCall = yith_booking.ajax( postData, { block: self.dom.time.parent() } );
+					self.ajaxCall = yith_booking.ajax(postData, { block: self.dom.time.parent() });
 
 					self.ajaxCall
-						.done(
-							function ( response ) {
-								var data = response.data;
-								try {
-									if ( data.error ) {
-										self.dom.message.html( '<p class="error">' + data.error + '</p>' );
-									} else {
-										if ( data.time_data_html ) {
-											self.dom.time.html( data.time_data_html );
-										}
-										if ( time ) {
-											var $option_selected = self.dom.time.find( 'option[value="' + time + '"]' );
-											if ( $option_selected ) {
-												$option_selected.attr( 'selected', 'selected' );
-											}
-										}
-										if ( data.message ) {
-											self.dom.message.html( '<p>' + data.message + '</p>' );
-										}
-
-										self.dom.time.trigger( 'yith-wcbk-select-list:update' );
-										self.form.trigger( 'yith_wcbk_form_update_time', data );
+						.done(function (response) {
+							var data = response.data;
+							try {
+								if (data.error) {
+									self.dom.message.html('<p class="error">' + data.error + '</p>');
+								} else {
+									if (data.time_data_html) {
+										self.dom.time.html(data.time_data_html); // Time slots are populated here
 									}
-								} catch ( err ) {
-									console.log( err );
+									if (time) {
+										var $option_selected = self.dom.time.find('option[value="' + time + '"]');
+										if ($option_selected) {
+											$option_selected.attr('selected', 'selected');
+										}
+									}
+									if (data.message) {
+										self.dom.message.html('<p>' + data.message + '</p>');
+									}
+									self.dom.time.trigger('yith-wcbk-select-list:update');
+									self.form.trigger('yith_wcbk_form_update_time', data);
 								}
-
+							} catch (err) {
+								console.log(err);
 							}
-						)
-						.always(
-							function () {
-								var data = validateForm();
-								if ( !options.updateFormOnCompleteOnlyIfValid || data.validation ) {
-									self.form.trigger( 'yith_wcbk_booking_form_update' );
-								}
+						})
+						.always(function () {
+							var data = validateForm();
+							if (!options.updateFormOnCompleteOnlyIfValid || data.validation) {
+								self.form.trigger('yith_wcbk_booking_form_update');
 							}
-						);
+						});
 				}
 
 				return loaded;

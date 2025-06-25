@@ -25,7 +25,7 @@ $layout = yith_wcbk()->settings->get_time_selector_layout();
 					'id'            => 'yith-wcbk-booking-end-date-time-' . $product->get_id(),
 					'name'          => 'to-time',
 					'class'         => 'yith-wcbk-booking-time-select-list',
-					'field_class'   => 'yith-wcbk-booking-date yith-wcbk-booking-end-date-time',
+					'field_class'   => 'yith-wcbk-booking-date yith-wcbk-booking-start-date-time',
 					'options'       => array(),
 					'is_loading'    => true,
 					'empty_message' => apply_filters( 'yith_wcbk_time_data_html_label' ,__( 'No time available', 'yith-booking-for-woocommerce' ), $product),
@@ -37,7 +37,7 @@ $layout = yith_wcbk()->settings->get_time_selector_layout();
 					'type'    => 'select-alt',
 					'id'      => 'yith-wcbk-booking-end-date-time-' . $product->get_id(),
 					'name'    => 'to-time',
-					'class'   => 'yith-wcbk-booking-date yith-wcbk-booking-end-date-time',
+					'class'   => 'yith-wcbk-booking-date yith-wcbk-booking-start-date-time',
 					'options' => array( '' => __( 'Select Time', 'yith-booking-for-woocommerce' ) ),
 				)
 			);

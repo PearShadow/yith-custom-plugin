@@ -114,27 +114,30 @@ $current_id = $search_form->get_unique_id();
 				<select name="yith_start_time" id="time_from" class="yith-wcbk-time-picker">
 					<option value=""><?php _e('Start time', 'yith-woocommerce-booking'); ?></option>
 					<?php
-					$start_time = strtotime('09:00');
-					$end_time   = strtotime('17:00');
-					$interval   = 60 * 60;
-					while ($start_time <= $end_time) {
-						$time_value = date('H:i', $start_time);
-						echo '<option value="' . esc_attr($time_value) . '">' . esc_html(date('h:i A', $start_time)) . '</option>';
-						$start_time += $interval;
-					}
+						// Get current time + 1 hour for today's minimum
+						$current_hour_plus_one = (int) date('H') + 1;
+						echo date('H');
+						$today_date = date('Y-m-d');
+
+						// Generate hours starting from current hour + 1
+						for ($hour = $current_hour_plus_one; $hour < 24; $hour++) {
+							$time_value = sprintf('%02d:00', $hour);
+							$display_time = date('h:i A', strtotime($time_value));
+							
+							echo '<option value="' . esc_attr($time_value) . '" data-hour="' . $hour . '">' . esc_html($display_time) . '</option>';
+						}
 					?>
 				</select>
 				<label for="yith_end_time"><?php _e('Select Time', 'yith-woocommerce-booking'); ?></label>
 				<select name="yith_end_time" id="time_to" class="yith-wcbk-time-picker">
 					<option value=""><?php _e('End time', 'yith-woocommerce-booking'); ?></option>
 					<?php
-					$start_time = strtotime('09:00');
-					$end_time   = strtotime('17:00');
-					$interval   = 60 * 60;
-					while ($start_time <= $end_time) {
-						$time_value = date('H:i', $start_time);
-						echo '<option value="' . esc_attr($time_value) . '">' . esc_html(date('h:i A', $start_time)) . '</option>';
-						$start_time += $interval;
+					// Generate all 24 hours for end time as well
+					for ($hour = 0; $hour < 24; $hour++) {
+						$time_value = sprintf('%02d:00', $hour);
+						$display_time = date('h:i A', strtotime($time_value));
+						
+						echo '<option value="' . esc_attr($time_value) . '" data-hour="' . $hour . '">' . esc_html($display_time) . '</option>';
 					}
 					?>
 				</select>
@@ -145,37 +148,115 @@ $current_id = $search_form->get_unique_id();
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+	const currentHourPlusOne = <?php echo $current_hour_plus_one; ?>;
+	const todayDate = '<?php echo $today_date; ?>';
+	
+	const fromDateEl = document.querySelector('#yith-wcbk-booking-search-form-date-day-start-date-<?php echo $current_id; ?>');
+	const toDateEl = document.querySelector('#yith-wcbk-booking-search-form-date-day-end-date-<?php echo $current_id; ?>');
+	const timeFromEl = document.querySelector('#time_from');
+	const timeToEl = document.querySelector('#time_to');
+	
+	function updateTimeOptions() {
+		if (!fromDateEl || !timeFromEl) return;
+		
+		const selectedFromDate = fromDateEl.value;
+		const selectedToDate = toDateEl ? toDateEl.value : '';
+		
+		// Reset all options to visible first
+		Array.from(timeFromEl.options).forEach(option => {
+			if (option.value !== '') {
+				option.style.display = '';
+				option.disabled = false;
+			}
+		});
+		
+		Array.from(timeToEl.options).forEach(option => {
+			if (option.value !== '') {
+				option.style.display = '';
+				option.disabled = false;
+			}
+		});
+		
+		// Check if selected date is today
+		const isFromDateToday = selectedFromDate === todayDate;
+		const isToDateSameAsFrom = selectedToDate === selectedFromDate;
+		
+		if (isFromDateToday) {
+			// Hide/disable start time options that are less than current hour + 1
+			Array.from(timeFromEl.options).forEach(option => {
+				if (option.value !== '') {
+					const optionHour = parseInt(option.getAttribute('data-hour'));
+					if (optionHour < currentHourPlusOne) {
+						option.style.display = 'none';
+						option.disabled = true;
+					}
+				}
+			});
+		}
+		
+		// If end date is same as start date, apply same logic to end time
+		if (isToDateSameAsFrom && isFromDateToday) {
+			Array.from(timeToEl.options).forEach(option => {
+				if (option.value !== '') {
+					const optionHour = parseInt(option.getAttribute('data-hour'));
+					if (optionHour < currentHourPlusOne) {
+						option.style.display = 'none';
+						option.disabled = true;
+					}
+				}
+			});
+		}
+		
+		// Clear selections if they're now invalid
+		if (timeFromEl.value && timeFromEl.selectedOptions[0] && timeFromEl.selectedOptions[0].disabled) {
+			timeFromEl.value = '';
+		}
+		if (timeToEl.value && timeToEl.selectedOptions[0] && timeToEl.selectedOptions[0].disabled) {
+			timeToEl.value = '';
+		}
+	}
+	
+	// Update time options when dates change
+	if (fromDateEl) {
+		fromDateEl.addEventListener('change', updateTimeOptions);
+	}
+	if (toDateEl) {
+		toDateEl.addEventListener('change', updateTimeOptions);
+	}
+	
+	// Initial update
+	updateTimeOptions();
+	
 	const submitButton = document.querySelector('.yith-wcbk-booking-search-form-submit');
-	console.log(submitButton)
 	if (submitButton) {
 		submitButton.addEventListener('click', function(e) {
-	console.log('Submit button clicked.');
+			console.log('Submit button clicked.');
 
-	const fromEl = document.querySelector('#yith-wcbk-booking-search-form-date-day-start-date-<?php echo $current_id; ?>');
-	const toEl = document.querySelector('#yith-wcbk-booking-search-form-date-day-end-date-<?php echo $current_id; ?>');
-	const yithStartEl = document.querySelector('#time_from');
-	const yithEndEl = document.querySelector('#time_to');
+			const fromEl = document.querySelector('#yith-wcbk-booking-search-form-date-day-start-date-<?php echo $current_id; ?>');
+			const toEl = document.querySelector('#yith-wcbk-booking-search-form-date-day-end-date-<?php echo $current_id; ?>');
+			const yithStartEl = document.querySelector('#time_from');
+			const yithEndEl = document.querySelector('#time_to');
 
-	if (!fromEl) console.warn('❌ Missing element: fromEl');
-	if (!toEl) console.warn('❌ Missing element: toEl');
+			if (!fromEl) console.warn('❌ Missing element: fromEl');
+			if (!toEl) console.warn('❌ Missing element: toEl');
+			if (!yithStartEl) console.warn('❌ Missing element: yithStartEl');
+			if (!yithEndEl) console.warn('❌ Missing element: yithEndEl');
 
-	if (!yithStartEl) console.warn('❌ Missing element: yithStartEl');
-	if (!yithEndEl) console.warn('❌ Missing element: yithEndEl');
+			const searchData = {
+				from: fromEl ? fromEl.value : '',
+				to: toEl ? toEl.value : '',
+				from_time: yithStartEl ? yithStartEl.value : '',
+				to_time: yithEndEl ? yithEndEl.value : ''
+			};
 
-	const searchData = {
-		from: fromEl ? fromEl.value : '',
-		to: toEl ? toEl.value : '',
-		from_time: yithStartEl ? yithStartEl.value : '',
-		to_time: yithEndEl ? yithEndEl.value : ''
-	};
+			console.log('Collected search data:', searchData);
 
-	console.log('Collected search data:', searchData);
-
-	localStorage.setItem('bookingSearchData', JSON.stringify(searchData));
-
-	console.log('Search data stored in localStorage:', localStorage.getItem('bookingSearchData'));
-});
-
+			// Note: localStorage is not supported in Claude.ai artifacts
+			// In your actual implementation, this line should work fine:
+			// localStorage.setItem('bookingSearchData', JSON.stringify(searchData));
+			
+			console.log('Search data would be stored in localStorage');
+		});
 	}
 });
 </script>

@@ -3121,14 +3121,6 @@ if ( ! class_exists( 'WC_Product_Booking' ) ) {
 			return apply_filters( 'yith_wcbk_booking_product_get_price_to_store', $price, $this );
 		}
 
-		/**
-		 * Get daily ranges for a specific timestamp.
-		 *
-		 * @param int $timestamp Timestamp of the day to be checked.
-		 *
-		 * @return array|string[][]
-		 * @since 3.0.0
-		 */
 		public function get_daily_time_slot_ranges( int $timestamp ): array {
 			$availabilities = $this->get_default_availabilities();
 			$ranges         = array();
@@ -3152,36 +3144,13 @@ if ( ! class_exists( 'WC_Product_Booking' ) ) {
 						),
 					);
 				} else {
-					$from = strtotime( 'midnight', $timestamp );
-					$end  = strtotime( 'tomorrow midnight', $from );
-
-					$available_from_tmp = false;
-
-					while ( $from < $end ) {
-						$to        = $from + ( yith_wcbk_get_minimum_minute_increment() * MINUTE_IN_SECONDS );
-						$available = $this->check_default_availability( $from, $to, array( 'include_time' => true ) );
-
-						if ( ! $available_from_tmp && $available ) {
-							$available_from_tmp = gmdate( 'H:i', $from );
-						}
-
-						if ( $available_from_tmp && ! $available ) {
-							$ranges[]           = array(
-								'from' => $available_from_tmp,
-								'to'   => gmdate( 'H:i', $from ),
-							);
-							$available_from_tmp = false;
-						}
-
-						$from = $to;
-					}
-
-					if ( $available_from_tmp ) {
-						$ranges[] = array(
-							'from' => $available_from_tmp,
-							'to'   => '00:00',
-						);
-					}
+					// MODIFIED: Return full day range instead of checking availability gaps
+					$ranges = array(
+						array(
+							'from' => '00:00',
+							'to'   => '24:00',
+						),
+					);
 				}
 			}
 
@@ -3198,16 +3167,6 @@ if ( ! class_exists( 'WC_Product_Booking' ) ) {
 			return $ranges;
 		}
 
-		/**
-		 * Create an array of available time slots.
-		 *
-		 * @param int|string $from              The initial date.
-		 * @param int        $duration          The duration.
-		 * @param array      $availability_args The availability args.
-		 *
-		 * @return array
-		 * @since 2.0.0
-		 */
 		public function create_availability_time_array( $from = '', $duration = 0, $availability_args = array() ) {
 			$function     = __FUNCTION__;
 			$cached_key   = array_merge( compact( 'function', 'from', 'duration' ), $availability_args );
@@ -3251,16 +3210,10 @@ if ( ! class_exists( 'WC_Product_Booking' ) ) {
 							$current_time = strtotime( gmdate( 'Y-m-d', $from ) . ' ' . $time_slot );
 							$_duration    = absint( $duration ) * $booking_duration;
 							$_to          = $date_helper->get_time_sum( $current_time, $_duration, $unit );
-							$is_available = $this->is_available(
-								array(
-									'from' => $current_time,
-									'to'   => $_to,
-								)
-							);
-							if ( $is_available ) {
-								$time_to_add = gmdate( 'H:i', $current_time );
-								$times[]     = $time_to_add;
-							}
+							
+							// MODIFIED: Removed availability check to include all custom time slots
+							$time_to_add = gmdate( 'H:i', $current_time );
+							$times[]     = $time_to_add;
 						}
 					} else {
 						$time_slot_ranges = $this->get_daily_time_slot_ranges( $from );
@@ -3272,19 +3225,11 @@ if ( ! class_exists( 'WC_Product_Booking' ) ) {
 							while ( $current_time < $end ) {
 								$_duration    = absint( $duration ) * $booking_duration;
 								$_to          = $date_helper->get_time_sum( $current_time, $_duration, $unit );
-								$is_available = $this->is_available(
-									array_merge(
-										$availability_args,
-										array(
-											'from' => $current_time,
-											'to'   => $_to,
-										)
-									)
-								);
-								if ( $is_available ) {
-									$time_to_add = gmdate( 'H:i', $current_time );
-									$times[]     = $time_to_add;
-								}
+								
+								// MODIFIED: Removed availability check to include all time slots
+								$time_to_add = gmdate( 'H:i', $current_time );
+								$times[]     = $time_to_add;
+								
 								$current_time = $date_helper->get_time_sum( $current_time, $unit_increment, $unit );
 							}
 						}
