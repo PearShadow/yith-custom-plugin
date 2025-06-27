@@ -30,6 +30,16 @@
 	color : var(--yith-wcbk-error);
 }
 
+.yith-wcbk-form-section-dates-wrapper.yith-wcbk-form-section-wrapper {
+  display: none;
+}
+
+.labe_time_picker {
+	color: white;
+	display: inline-flex;
+	margin: 5px 0;
+}
+
 .yith-wcbk-booking-form-message p.error {
 	border-color : var(--yith-wcbk-error);
 	color        : var(--yith-wcbk-error);

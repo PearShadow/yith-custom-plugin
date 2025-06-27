@@ -1,6 +1,4 @@
 /* global jQuery */
-console.log('custom-booking-duration.js loaded');
-
 if (typeof jQuery === 'undefined') {
     console.error('jQuery is not loaded, custom-booking-duration.js cannot proceed');
 } else {
@@ -13,16 +11,10 @@ if (typeof jQuery === 'undefined') {
 
         // Function to calculate duration in hours
         function calculateDuration($startDate, $endDate, $startTime, $endTime, $durationField, $hiddenDurationField) {
-            console.log('calculateDuration called');
             var startDate = $startDate.val(),
                 endDate = $endDate.val(),
                 startTime = $startTime ? $startTime.val() : '',
                 endTime = $endTime ? $endTime.val() : '';
-
-            console.log('Start Date:', startDate);
-            console.log('End Date:', endDate);
-            console.log('Start Time:', startTime);
-            console.log('End Time:', endTime);
 
             if (startDate && endDate && startTime && endTime) {
                 console.log('All required fields have values');
@@ -35,14 +27,10 @@ if (typeof jQuery === 'undefined') {
                     endHours = parseInt(endParts[0], 10),
                     endMinutes = parseInt(endParts[1], 10);
 
-                console.log('Parsed Start:', startHours, startMinutes);
-                console.log('Parsed End:', endHours, endMinutes);
 
                 start.setHours(startHours, startMinutes);
                 end.setHours(endHours, endMinutes);
 
-                console.log('Start DateTime:', start);
-                console.log('End DateTime:', end);
 
                 var timeDiff = end.getTime() - start.getTime();
                 var hours = Math.round(timeDiff / (1000 * 3600));
@@ -53,13 +41,11 @@ if (typeof jQuery === 'undefined') {
                     console.log('Updating duration fields with:', hours);
                     if ($durationField) {
                         $durationField.val(hours);
-                        console.log('Visible duration field updated:', $durationField.val());
                     } else {
                         console.log('Visible duration field not found');
                     }
                     if ($hiddenDurationField) {
                         $hiddenDurationField.val(hours);
-                        console.log('Hidden duration field updated:', $hiddenDurationField.val());
                     } else {
                         console.log('Hidden duration field not found');
                     }
@@ -73,10 +59,8 @@ if (typeof jQuery === 'undefined') {
 
         // Function to initialize duration calculation
         function initializeDurationCalculation() {
-            console.log('Initializing duration calculation');
             var $form = $('.yith-wcbk-booking-form');
             if ($form.length) {
-                console.log('Booking form found:', $form.data('product-id'));
                 var productId = $form.data('product-id'),
                     $startDate = $('#yith-wcbk-booking-start-date-' + productId),
                     $endDate = $('#yith-wcbk-booking-ui-end-date-' + productId),
@@ -85,21 +69,11 @@ if (typeof jQuery === 'undefined') {
                     $durationField = $('#yith-wcbk-booking-duration-' + productId),
                     $hiddenDurationField = $('input[name="duration"]');
 
-                console.log('Elements:', {
-                    startDate: $startDate.length,
-                    endDate: $endDate.length,
-                    startTime: $startTime.length,
-                    endTime: $endTime.length,
-                    durationField: $durationField.length,
-                    hiddenDurationField: $hiddenDurationField.length
-                });
-
                 // Calculate duration on page load if all fields are populated
                 calculateDuration($startDate, $endDate, $startTime, $endTime, $durationField, $hiddenDurationField);
 
                 // Bind change events
                 $startDate.add($endDate).add($startTime).add($endTime).on('change', function () {
-                    console.log('Field changed:', $(this).attr('id') || $(this).attr('name'));
                     calculateDuration($startDate, $endDate, $startTime, $endTime, $durationField, $hiddenDurationField);
                 });
             } else {
@@ -113,7 +87,6 @@ if (typeof jQuery === 'undefined') {
         // Handle AJAX-loaded forms
         const observer = new MutationObserver(function(mutations) {
             if ($('.yith-wcbk-booking-form').length) {
-                console.log('Booking form detected via MutationObserver');
                 initializeDurationCalculation();
                 observer.disconnect();
             }
@@ -122,7 +95,6 @@ if (typeof jQuery === 'undefined') {
 
         // Hook into YITH Booking form events (if available)
         $(document).on('yith_wcbk_booking_form_loaded yith_wcbk_booking_form_updated', function() {
-            console.log('YITH booking form event detected');
             initializeDurationCalculation();
         });
     });

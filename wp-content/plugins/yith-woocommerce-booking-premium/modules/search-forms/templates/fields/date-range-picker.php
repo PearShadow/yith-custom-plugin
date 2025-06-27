@@ -110,7 +110,7 @@ $current_id = $search_form->get_unique_id();
 			?>
 			
 			<div class="yith-wcbk-search-form-field">
-				<label for="yith_start_time"><?php _e('Select Time', 'yith-woocommerce-booking'); ?></label>
+				<label class="labe_time_picker" for="yith_start_time"><?php _e('Start Time', 'yith-woocommerce-booking'); ?></label>
 				<select name="yith_start_time" id="time_from" class="yith-wcbk-time-picker">
 					<option value=""><?php _e('Start time', 'yith-woocommerce-booking'); ?></option>
 					<?php
@@ -128,7 +128,7 @@ $current_id = $search_form->get_unique_id();
 						}
 					?>
 				</select>
-				<label for="yith_end_time"><?php _e('Select Time', 'yith-woocommerce-booking'); ?></label>
+				<label class="labe_time_picker" for="yith_end_time"><?php _e('End Time', 'yith-woocommerce-booking'); ?></label>
 				<select name="yith_end_time" id="time_to" class="yith-wcbk-time-picker">
 					<option value=""><?php _e('End time', 'yith-woocommerce-booking'); ?></option>
 					<?php
@@ -253,9 +253,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 			// Note: localStorage is not supported in Claude.ai artifacts
 			// In your actual implementation, this line should work fine:
-			// localStorage.setItem('bookingSearchData', JSON.stringify(searchData));
+			localStorage.setItem('bookingSearchData', JSON.stringify(searchData));
 			
-			console.log('Search data would be stored in localStorage');
+			console.log('Search data stored in localStorage:', localStorage.getItem('bookingSearchData'));
 		});
 	}
 });

@@ -1,10 +1,3 @@
-/* global jQuery */
-console.log('custom-booking-duration.js loaded');
-
-if (typeof jQuery === 'undefined') {
-    console.error('jQuery is not loaded, custom-booking-duration.js cannot proceed');
-} else {
-    console.log('jQuery detected, version:', jQuery.fn.jquery);
 
     jQuery(function ($) {
         "use strict";
@@ -13,7 +6,6 @@ if (typeof jQuery === 'undefined') {
 
         // Function to calculate duration in hours
         function calculateDuration($startDate, $endDate, $startTime, $endTime, $durationField, $hiddenDurationField) {
-            console.log('calculateDuration called');
             var startDate = $startDate.val(),
                 endDate = $endDate.val(),
                 startTime = $startTime ? $startTime.val() : '',
@@ -70,27 +62,31 @@ if (typeof jQuery === 'undefined') {
                 const data = JSON.parse(bookingData);
 
                 if (data.from && $startDate.length) {
-                    $startDate.val(data.from);
+                    $startDate.val(data.from).trigger('change');
                 }
                 if (data.to && $endDate.length) {
-                    $endDate.val(data.to);
+                    $endDate.val(data.to).trigger('change');
                 }
 
                 let setStart = false, setEnd = false;
 
                 waitForSelectOptions($startTime, data.from_time, () => {
-                    $startTime.val(data.from_time).trigger('change.select2');
+                    $startTime.val(data.from_time).trigger('change').trigger('change.select2');
                     setStart = true;
                     if (setStart && setEnd) {
                         calculateDuration($startDate, $endDate, $startTime, $endTime, $durationField, $hiddenDurationField);
+                        // Trigger YITH Booking form update event
+                        $(document).trigger('yith_wcbk_booking_form_update');
                     }
                 });
 
                 waitForSelectOptions($endTime, data.to_time, () => {
-                    $endTime.val(data.to_time).trigger('change.select2');
+                    $endTime.val(data.to_time).trigger('change').trigger('change.select2');
                     setEnd = true;
                     if (setStart && setEnd) {
                         calculateDuration($startDate, $endDate, $startTime, $endTime, $durationField, $hiddenDurationField);
+                        // Trigger YITH Booking form update event
+                        $(document).trigger('yith_wcbk_booking_form_update');
                     }
                 });
 
@@ -114,6 +110,9 @@ if (typeof jQuery === 'undefined') {
                     $hiddenDurationField = $('input[name="duration"]');
 
 
+                const addToCartButton = $('.yith-wcbk-add-to-cart-button.single_add_to_cart_button');
+                addToCartButton.prop('disabled', true);
+                console.log('test', addToCartButton.disabled);
                 // Populate form fields from localStorage
                 populateFormFromLocalStorage($startDate, $endDate, $startTime, $endTime, $durationField, $hiddenDurationField);
 
@@ -167,4 +166,3 @@ if (typeof jQuery === 'undefined') {
             initializeDurationCalculation();
         });
     });
-}
