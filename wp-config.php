@@ -23,10 +23,10 @@
 define( 'DB_NAME', 'carsrese_wp607' );
 
 /** Database username */
-define( 'DB_USER', 'carsrese_wp607' );
+define( 'DB_USER', 'root' );
 
 /** Database password */
-define( 'DB_PASSWORD', '(7So9](-(p!k5X0kak' );
+define( 'DB_PASSWORD', 'root' );
 
 /** Database hostname */
 define( 'DB_HOST', 'localhost' );
@@ -91,6 +91,7 @@ define( 'WP_DEBUG', false );
 
 
 
+define( 'WP_ENVIRONMENT_TYPE', 'local' );
 /* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */
