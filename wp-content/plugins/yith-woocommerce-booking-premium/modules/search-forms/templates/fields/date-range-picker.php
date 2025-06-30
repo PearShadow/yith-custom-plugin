@@ -115,7 +115,7 @@ $current_id = $search_form->get_unique_id();
 					<option value=""><?php _e('Start time', 'yith-woocommerce-booking'); ?></option>
 					<?php
 						// Get current time + 1 hour for today's minimum
-						$current_hour_plus_one = (int) date('H') + 1;
+						$current_hour_plus_one = (int) date('H') + 3;
 						echo date('H');
 						$today_date = date('Y-m-d');
 
@@ -148,115 +148,149 @@ $current_id = $search_form->get_unique_id();
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-	const currentHourPlusOne = <?php echo $current_hour_plus_one; ?>;
-	const todayDate = '<?php echo $today_date; ?>';
-	
-	const fromDateEl = document.querySelector('#yith-wcbk-booking-search-form-date-day-start-date-<?php echo $current_id; ?>');
-	const toDateEl = document.querySelector('#yith-wcbk-booking-search-form-date-day-end-date-<?php echo $current_id; ?>');
-	const timeFromEl = document.querySelector('#time_from');
-	const timeToEl = document.querySelector('#time_to');
-	
-	function updateTimeOptions() {
-		if (!fromDateEl || !timeFromEl) return;
-		
-		const selectedFromDate = fromDateEl.value;
-		const selectedToDate = toDateEl ? toDateEl.value : '';
-		
-		// Reset all options to visible first
-		Array.from(timeFromEl.options).forEach(option => {
-			if (option.value !== '') {
-				option.style.display = '';
-				option.disabled = false;
-			}
-		});
-		
-		Array.from(timeToEl.options).forEach(option => {
-			if (option.value !== '') {
-				option.style.display = '';
-				option.disabled = false;
-			}
-		});
-		
-		// Check if selected date is today
-		const isFromDateToday = selectedFromDate === todayDate;
-		const isToDateSameAsFrom = selectedToDate === selectedFromDate;
-		
-		if (isFromDateToday) {
-			// Hide/disable start time options that are less than current hour + 1
-			Array.from(timeFromEl.options).forEach(option => {
-				if (option.value !== '') {
-					const optionHour = parseInt(option.getAttribute('data-hour'));
-					if (optionHour < currentHourPlusOne) {
-						option.style.display = 'none';
-						option.disabled = true;
-					}
-				}
-			});
-		}
-		
-		// If end date is same as start date, apply same logic to end time
-		if (isToDateSameAsFrom && isFromDateToday) {
-			Array.from(timeToEl.options).forEach(option => {
-				if (option.value !== '') {
-					const optionHour = parseInt(option.getAttribute('data-hour'));
-					if (optionHour < currentHourPlusOne) {
-						option.style.display = 'none';
-						option.disabled = true;
-					}
-				}
-			});
-		}
-		
-		// Clear selections if they're now invalid
-		if (timeFromEl.value && timeFromEl.selectedOptions[0] && timeFromEl.selectedOptions[0].disabled) {
-			timeFromEl.value = '';
-		}
-		if (timeToEl.value && timeToEl.selectedOptions[0] && timeToEl.selectedOptions[0].disabled) {
-			timeToEl.value = '';
-		}
-	}
-	
-	// Update time options when dates change
-	if (fromDateEl) {
-		fromDateEl.addEventListener('change', updateTimeOptions);
-	}
-	if (toDateEl) {
-		toDateEl.addEventListener('change', updateTimeOptions);
-	}
-	
-	// Initial update
-	updateTimeOptions();
-	
-	const submitButton = document.querySelector('.yith-wcbk-booking-search-form-submit');
-	if (submitButton) {
-		submitButton.addEventListener('click', function(e) {
-			console.log('Submit button clicked.');
-
-			const fromEl = document.querySelector('#yith-wcbk-booking-search-form-date-day-start-date-<?php echo $current_id; ?>');
-			const toEl = document.querySelector('#yith-wcbk-booking-search-form-date-day-end-date-<?php echo $current_id; ?>');
-			const yithStartEl = document.querySelector('#time_from');
-			const yithEndEl = document.querySelector('#time_to');
-
-			if (!fromEl) console.warn('❌ Missing element: fromEl');
-			if (!toEl) console.warn('❌ Missing element: toEl');
-			if (!yithStartEl) console.warn('❌ Missing element: yithStartEl');
-			if (!yithEndEl) console.warn('❌ Missing element: yithEndEl');
-
-			const searchData = {
-				from: fromEl ? fromEl.value : '',
-				to: toEl ? toEl.value : '',
-				from_time: yithStartEl ? yithStartEl.value : '',
-				to_time: yithEndEl ? yithEndEl.value : ''
-			};
-
-			console.log('Collected search data:', searchData);
-
-			// Note: localStorage is not supported in Claude.ai artifacts
-			// In your actual implementation, this line should work fine:
-			localStorage.setItem('bookingSearchData', JSON.stringify(searchData));
-			
-			console.log('Search data stored in localStorage:', localStorage.getItem('bookingSearchData'));
-		});
-	}
+    const currentHourPlusOne = <?php echo $current_hour_plus_one; ?>;
+    const todayDate = '<?php echo $today_date; ?>';
+    
+    const fromDateEl = document.querySelector('#yith-wcbk-booking-search-form-date-day-start-date-<?php echo $current_id; ?>');
+    const toDateEl = document.querySelector('#yith-wcbk-booking-search-form-date-day-end-date-<?php echo $current_id; ?>');
+    const timeFromEl = document.querySelector('#time_from');
+    const timeToEl = document.querySelector('#time_to');
+    
+    // Normalize date to YYYY-MM-DD format
+    function normalizeDate(dateStr) {
+        try {
+            const date = new Date(dateStr);
+            if (isNaN(date.getTime())) {
+                console.warn('Invalid date format:', dateStr);
+                return dateStr;
+            }
+            return date.toISOString().split('T')[0]; // Returns YYYY-MM-DD
+        } catch (e) {
+            console.warn('Error parsing date:', dateStr, e);
+            return dateStr;
+        }
+    }
+    
+    function updateTimeOptions() {
+        if (!fromDateEl || !timeFromEl) {
+            console.warn('Missing required elements: fromDateEl or timeFromEl');
+            return;
+        }
+        
+        const selectedFromDate = normalizeDate(fromDateEl.value);
+        const selectedToDate = toDateDetails about the datepicker).
+        // Debugging: Log date values
+        console.log('todayDate:', todayDate, 'selectedFromDate:', selectedFromDate, 'isFromDateToday:', selectedFromDate === todayDate);
+        
+        // Reset all options to visible and enabled
+        Array.from(timeFromEl.options).forEach(option => {
+            if (option.value !== '') {
+                option.style.display = '';
+                option.disabled = false;
+            }
+        });
+        
+        if (timeToEl) {
+            Array.from(timeToEl.options).forEach(option => {
+                if (option.value !== '') {
+                    option.style.display = '';
+                    option.disabled = false;
+                }
+            });
+        }
+        
+        // Check if selected start date is today
+        const isFromDateToday = selectedFromDate === todayDate;
+        const isToDateSameAsFrom = selectedToDate === selectedFromDate;
+        
+        // Apply restrictions only if start date is today
+        if (isFromDateToday) {
+            console.log('Applying time restrictions for today, currentHourPlusOne:', typeof currentHourPlusOne:', currentHourPlusOne);
+            Array.from(timeFromEl.options).forEach(option => {
+                if (option.value !== '') {
+                    const optionHour = parseInt(option.getAttribute('data-hour'));
+                    if (optionHour < currentHourPlusOne) {
+                        option.style.display = 'none';
+                        option.disabled = true;
+                        console.log(`Hiding timeFrom option: ${option.value} (hour: ${optionHour})`);
+                    }
+                }
+            });
+            
+            if (isToDateSameAsFrom && timeToEl) {
+                Array.from(timeToEl.options).forEach(option => {
+                    if (option.value !== '') {
+                        const optionHour = parseInt(option.getAttribute('data-hour'));
+                        if (optionHour < currentHourPlusOne) {
+                            option.style.display = 'none';
+                            option.disabled = true;
+                            console.log(`Hiding timeTo option: ${option.value} (hour: ${optionHour})`);
+                        }
+                    }
+                });
+            }
+        } else {
+            console.log('No restrictions applied; all time slots (00:00-23:00) available for future date');
+        }
+        
+        // Clear invalid selections
+        if (timeFromEl.value && timeFromEl.selectedOptions[0] && timeFromEl.selectedOptions[0].disabled) {
+            console.log('Clearing invalid timeFrom selection:', timeFromEl.value);
+            timeFromEl.value = '';
+        }
+        if (timeToEl && timeToEl.value && timeToEl.selectedOptions[0] && timeToEl.selectedOptions[0].disabled) {
+            console.log('Clearing invalid timeTo selection:', timeToEl.value);
+            timeToEl.value = '';
+        }
+    }
+    
+    // Update time options when dates change
+    if (fromDateEl) {
+        fromDateEl.addEventListener('change', () => {
+            console.log('fromDateEl changed:', fromDateEl.value);
+            updateTimeOptions();
+        });
+    }
+    if (toDateEl) {
+        toDateEl.addEventListener('change', () => {
+            console.log('toDateEl changed:', toDateEl.value);
+            updateTimeOptions();
+        });
+    }
+    
+    // Initial update
+    console.log('Initial updateTimeOptions call');
+    updateTimeOptions();
+    
+    const submitButton = document.querySelector('.yith-wcbk-booking-search-form-submit');
+    if (submitButton) {
+        submitButton.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent form submission for testing
+            console.log('Submit button clicked.');
+            
+            const fromEl = document.querySelector('#yith-wcbk-booking-search-form-date-day-start-date-<?php echo $current_id; ?>');
+            const toEl = document.querySelector('#yith-wcbk-booking-search-form-date-day-end-date-<?php echo $current_id; ?>');
+            const yithStartEl = document.querySelector('#time_from');
+            const yithEndEl = document.querySelector('#time_to');
+            
+            if (!fromEl) console.warn('❌ Missing element: fromEl');
+            if (!toEl) console.warn('❌ Missing element: toEl');
+            if (!yithStartEl) console.warn('❌ Missing element: yithStartEl');
+            if (!yithEndEl) console.warn('❌ Missing element: yithEndEl');
+            
+            const searchData = {
+                from: fromEl ? normalizeDate(fromEl.value) : '',
+                to: toEl ? normalizeDate(toEl.value) : '',
+                from_time: yithStartEl ? yithStartEl.value : '',
+                to_time: yithEndEl ? yithEndEl.value : ''
+            };
+            
+            console.log('Collected search data:', searchData);
+            
+            localStorage.setItem('bookingSearchData', JSON.stringify(searchData));
+            
+            console.log('Search data stored in localStorage:', localStorage.getItem('bookingSearchData'));
+        });
+    }
 });
 </script>

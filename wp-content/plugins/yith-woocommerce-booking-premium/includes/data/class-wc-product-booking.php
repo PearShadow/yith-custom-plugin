@@ -3145,12 +3145,42 @@ if ( ! class_exists( 'WC_Product_Booking' ) ) {
 					);
 				} else {
 					// MODIFIED: Return full day range instead of checking availability gaps
-					$ranges = array(
-						array(
-							'from' => '00:00',
-							'to'   => '24:00',
-						),
-					);
+					// $ranges = array(
+					// 	array(
+					// 		'from' => '00:00',
+					// 		'to'   => '24:00',
+					// 	),
+					// );
+					$from = strtotime( 'midnight', $timestamp );
+					$end  = strtotime( 'tomorrow midnight', $from );
+
+					$available_from_tmp = false;
+
+					while ( $from < $end ) {
+						$to        = $from + ( yith_wcbk_get_minimum_minute_increment() * MINUTE_IN_SECONDS );
+						$available = $this->check_default_availability( $from, $to, array( 'include_time' => true ) );
+
+						if ( ! $available_from_tmp && $available ) {
+							$available_from_tmp = gmdate( 'H:i', $from );
+						}
+
+						if ( $available_from_tmp && ! $available ) {
+							$ranges[]           = array(
+								'from' => $available_from_tmp,
+								'to'   => gmdate( 'H:i', $from ),
+							);
+							$available_from_tmp = false;
+						}
+
+						$from = $to;
+					}
+
+					if ( $available_from_tmp ) {
+						$ranges[] = array(
+							'from' => $available_from_tmp,
+							'to'   => '00:00',
+						);
+					}
 				}
 			}
 
