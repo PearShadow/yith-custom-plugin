@@ -29,6 +29,7 @@
 .yith-wcbk-date-range-picker input.yith-wcbk-date-picker--formatted {
 	border  : 0;
 	padding : 12px 14px;
+	color: black;
 }
 
 .yith-wcbk-date-range-picker .yith-wcbk-date-range-picker__arrow {

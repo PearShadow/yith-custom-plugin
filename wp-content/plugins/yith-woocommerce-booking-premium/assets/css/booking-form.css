@@ -40,6 +40,103 @@
 	margin: 5px 0;
 }
 
+/* Add this CSS to your theme's style.css or custom CSS file */
+
+.location-required-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+}
+
+.popup-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+}
+
+.popup-content h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.4em;
+}
+
+.popup-content p {
+    margin-bottom: 20px;
+    color: #666;
+    line-height: 1.5;
+}
+
+.popup-close-btn {
+    background: rgb(220,38,38);
+	border: 1px solid rgb(220,38,38) !important;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+.popup-close-btn:hover {
+    background: white;
+	border: 1px solid rgb(220,38,38);
+}
+
+.popup-close-btn:focus {
+    outline: 2px solid #007cba;
+    outline-offset: 2px;
+}
+
+/* Animation for popup appearance */
+.location-required-popup .popup-content {
+    animation: popupFadeIn 0.3s ease-out;
+}
+
+@keyframes popupFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+    .popup-content {
+        padding: 20px;
+        width: 95%;
+    }
+    
+    .popup-content h3 {
+        font-size: 1.2em;
+    }
+}
+
 .yith-wcbk-booking-form-message p.error {
 	border-color : var(--yith-wcbk-error);
 	color        : var(--yith-wcbk-error);

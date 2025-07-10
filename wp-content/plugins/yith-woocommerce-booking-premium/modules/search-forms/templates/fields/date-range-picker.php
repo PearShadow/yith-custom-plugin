@@ -148,8 +148,6 @@ $current_id = $search_form->get_unique_id();
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-	console.log('🚀 Booking form initialized');
-	
 	// Configuration from PHP
 	const config = {
 		currentHour: <?php echo $current_hour; ?>,
@@ -157,8 +155,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		todayDate: '<?php echo $today_date; ?>',
 		currentId: '<?php echo $current_id; ?>'
 	};
-	
-	console.log('📊 Config:', config);
 	
 	// DOM elements
 	const elements = {
@@ -169,21 +165,15 @@ document.addEventListener('DOMContentLoaded', function() {
 		submitButton: document.querySelector('.yith-wcbk-booking-search-form-submit')
 	};
 	
-	// Verify all elements exist
-	console.log('🔍 Element check:');
-	Object.entries(elements).forEach(([key, element]) => {
-		console.log(`  ${key}:`, element ? '✅ Found' : '❌ Missing');
-	});
-	
 	// Safety check
 	if (!elements.fromDateEl || !elements.timeFromEl || !elements.timeToEl) {
-		console.error('❌ Critical elements missing. Aborting initialization.');
 		return;
 	}
 	
+	// Flag to prevent clearing during initialization
+	let isInitializing = false;
+	
 	function resetAllTimeOptions() {
-		console.log('🔄 Resetting all time options to enabled/visible');
-
 		// Reset start time options
 		Array.from(elements.timeFromEl.options).forEach(option => {
 			if (option.value !== '') {
@@ -202,14 +192,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		jQuery(elements.timeFromEl).select2('destroy').select2(); 
 		jQuery(elements.timeToEl).select2('destroy').select2(); 
-
 	}
 
-	
 	function restrictTimeOptions(selectElement, label) {
-		console.log(`🚫 Restricting ${label} options (hiding hours < ${config.currentHourPlusThree})`);
-		let restrictedCount = 0;
-		
 		Array.from(selectElement.options).forEach(option => {
 			if (option.value !== '') {
 				const optionHour = parseInt(option.getAttribute('data-hour'));
@@ -217,101 +202,195 @@ document.addEventListener('DOMContentLoaded', function() {
 				if (optionHour < config.currentHourPlusThree) {
 					option.style.display = 'none';
 					option.disabled = true;
-					restrictedCount++;
-					console.log(`  ↘️ Restricted ${label}: ${option.text} (hour: ${optionHour})`);
 				}
 			}
 		});
-		
-		console.log(`  📊 Total ${label} options restricted: ${restrictedCount}`);
 	}
 	
 	function clearInvalidSelections() {
-		console.log('🧹 Checking for invalid selections...');
-		
 		// Check start time
 		if (elements.timeFromEl.value && elements.timeFromEl.selectedOptions[0] && elements.timeFromEl.selectedOptions[0].disabled) {
-			console.log(`  🚮 Clearing invalid start time selection: ${elements.timeFromEl.value}`);
 			elements.timeFromEl.value = '';
 		}
 		
 		// Check end time
 		if (elements.timeToEl.value && elements.timeToEl.selectedOptions[0] && elements.timeToEl.selectedOptions[0].disabled) {
-			console.log(`  🚮 Clearing invalid end time selection: ${elements.timeToEl.value}`);
 			elements.timeToEl.value = '';
 		}
 	}
 	
-	function updateTimeOptions() {
-		console.log('\n🔄 === updateTimeOptions() called ===');
-
-		if (elements.timeFromEl.value || elements.timeToEl.value) {
+	function updateTimeOptions(skipTimeClear = false) {
+		// Only clear time selections if not initializing and not explicitly skipped
+		if (!isInitializing && !skipTimeClear && (elements.timeFromEl.value || elements.timeToEl.value)) {
 			elements.timeFromEl.value = '';
 			elements.timeToEl.value = '';
 			jQuery(elements.timeFromEl).trigger('change.select2');
 			jQuery(elements.timeToEl).trigger('change.select2');
-			console.log('🧼 Cleared time selections due to date change');
 		}
-
 		
 		const selectedFromDate = elements.fromDateEl.value;
 		const selectedToDate = elements.toDateEl ? elements.toDateEl.value : '';
-		
-		console.log('📅 Date values:');
-		console.log(`  From date: "${selectedFromDate}"`);
-		console.log(`  To date: "${selectedToDate}"`);
-		console.log(`  Today date: "${config.todayDate}"`);
 		
 		// Determine conditions
 		const isFromDateToday = selectedFromDate === config.todayDate;
 		const isToDateSameAsFrom = selectedToDate === selectedFromDate;
 		const isToDateToday = selectedToDate === config.todayDate;
 		
-		console.log('🧮 Conditions:');
-		console.log(`  isFromDateToday: ${isFromDateToday}`);
-		console.log(`  isToDateSameAsFrom: ${isToDateSameAsFrom}`);
-		console.log(`  isToDateToday: ${isToDateToday}`);
-		
 		// Always reset first
 		resetAllTimeOptions();
 		
 		// Apply restrictions based on conditions
 		if (isFromDateToday) {
-			console.log('⏰ Start date is TODAY - applying time restrictions to start time');
 			restrictTimeOptions(elements.timeFromEl, 'start time');
-		} else {
-			console.log('📅 Start date is NOT today - all start times available');
 		}
 		
 		if (isToDateSameAsFrom && isFromDateToday) {
-			console.log('⏰ End date same as start date AND start date is today - applying time restrictions to end time');
 			restrictTimeOptions(elements.timeToEl, 'end time');
 		} else if (isToDateToday && !isToDateSameAsFrom) {
-			console.log('⏰ End date is TODAY but different from start date - applying time restrictions to end time');
 			restrictTimeOptions(elements.timeToEl, 'end time');
-		} else {
-			console.log('📅 End date conditions not met - all end times available');
 		}
 		
-		// Clear any now-invalid selections
-		clearInvalidSelections();
+		// Clear any now-invalid selections (but not during initialization)
+		if (!isInitializing) {
+			clearInvalidSelections();
+		}
+	}
+	
+	// Helper function to get first available time option that hasn't passed today
+	function getFirstAvailableTime(selectElement, isToday = false) {
+		// Look for the first option that's not disabled and not empty
+		for (let i = 0; i < selectElement.options.length; i++) {
+			const option = selectElement.options[i];
+			if (option.value !== '' && !option.disabled && option.style.display !== 'none') {
+				// If it's today, check if the time hasn't passed using the existing logic
+				if (isToday) {
+					const optionHour = parseInt(option.getAttribute('data-hour'));
+					if (optionHour >= config.currentHourPlusThree) {
+						return option.value;
+					}
+				} else {
+					return option.value;
+				}
+			}
+		}
 		
-		console.log('✅ === updateTimeOptions() completed ===\n');
+		return null;
+	}
+	
+	// Function to fill date and time inputs
+	function fillInitialDatesAndTimes() {
+		// Use config.todayDate if available, otherwise get today's date
+		const today = config.todayDate ? new Date(config.todayDate) : new Date();
+		
+		// Get date 3 days from now
+		const threeDaysFromNow = new Date(today);
+		threeDaysFromNow.setDate(today.getDate() + 3);
+		
+		// Format dates to YYYY-MM-DD
+		const formatDate = (date) => {
+			const year = date.getFullYear();
+			const month = String(date.getMonth() + 1).padStart(2, '0');
+			const day = String(date.getDate()).padStart(2, '0');
+			return `${year}-${month}-${day}`;
+		};
+		
+		// Format time to HH:MM
+		const formatTime = (time) => {
+			// Check if time is already in HH:MM format
+			if (typeof time === 'string' && /^\d{2}:\d{2}$/.test(time)) {
+				return time;
+			}
+			// Convert hour number to HH:MM format
+			const hour = parseInt(time, 10);
+			if (isNaN(hour)) return '00:00'; // Fallback if invalid
+			const formattedHour = String(hour).padStart(2, '0');
+			return `${formattedHour}:00`;
+		};
+		
+		// Set the date input values with multiple methods
+		if (elements.fromDateEl) {
+			const fromDate = formatDate(today);
+			
+			// Try multiple ways to set the value
+			elements.fromDateEl.value = fromDate;
+			elements.fromDateEl.setAttribute('value', fromDate);
+			
+			// If it's a jQuery datepicker, try setting it via jQuery
+			if (typeof jQuery !== 'undefined' && jQuery(elements.fromDateEl).datepicker) {
+				try {
+					jQuery(elements.fromDateEl).datepicker('setDate', today);
+				} catch (e) {
+					// Silent fail
+				}
+			}
+			
+			// Trigger events to notify other scripts
+			elements.fromDateEl.dispatchEvent(new Event('change', { bubbles: true }));
+			elements.fromDateEl.dispatchEvent(new Event('input', { bubbles: true }));
+		}
+		
+		if (elements.toDateEl) {
+			const toDate = formatDate(threeDaysFromNow);
+			
+			// Try multiple ways to set the value
+			elements.toDateEl.value = toDate;
+			elements.toDateEl.setAttribute('value', toDate);
+			
+			// If it's a jQuery datepicker, try setting it via jQuery
+			if (typeof jQuery !== 'undefined' && jQuery(elements.toDateEl).datepicker) {
+				try {
+					jQuery(elements.toDateEl).datepicker('setDate', threeDaysFromNow);
+				} catch (e) {
+					// Silent fail
+				}
+			}
+			
+			// Trigger events to notify other scripts
+			elements.toDateEl.dispatchEvent(new Event('change', { bubbles: true }));
+			elements.toDateEl.dispatchEvent(new Event('input', { bubbles: true }));
+		}
+		
+		// Set the time input values
+		if (elements.timeFromEl) {
+			// Check if start date is today to determine if we need to use time restrictions
+			const fromDate = formatDate(today);
+			const isStartDateToday = fromDate === config.todayDate;
+			
+			// Get the first available time option that hasn't passed (if today) or just first available
+			const firstAvailableTime = getFirstAvailableTime(elements.timeFromEl, isStartDateToday);
+			const fromTime = firstAvailableTime || formatTime(config.currentHourPlusThree);
+			elements.timeFromEl.value = fromTime;
+			
+			// Trigger select2 update
+			if (typeof jQuery !== 'undefined') {
+				jQuery(elements.timeFromEl).trigger('change.select2');
+			}
+		}
+		
+		if (elements.timeToEl) {
+			const toTime = formatTime(config.currentHourPlusThree);
+			elements.timeToEl.value = toTime;
+			
+			// Trigger select2 update
+			if (typeof jQuery !== 'undefined') {
+				jQuery(elements.timeToEl).trigger('change.select2');
+			}
+		}
 	}
 	
 	// Event listeners with better event handling
 	function setupEventListeners() {
-		console.log('🎧 Setting up event listeners...');
-		
 		// Multiple events for date changes to catch all scenarios
 		const dateEvents = ['change', 'blur', 'input'];
 		
 		if (elements.fromDateEl) {
 			dateEvents.forEach(eventType => {
 				elements.fromDateEl.addEventListener(eventType, function(e) {
-					console.log(`📅 Start date ${eventType} event triggered. New value: "${this.value}"`);
+					// Skip if we're initializing
+					if (isInitializing) return;
+					
 					// Small delay to ensure date picker has updated
-					setTimeout(updateTimeOptions, 100);
+					setTimeout(() => updateTimeOptions(), 100);
 				});
 			});
 		}
@@ -319,9 +398,11 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (elements.toDateEl) {
 			dateEvents.forEach(eventType => {
 				elements.toDateEl.addEventListener(eventType, function(e) {
-					console.log(`📅 End date ${eventType} event triggered. New value: "${this.value}"`);
+					// Skip if we're initializing
+					if (isInitializing) return;
+					
 					// Small delay to ensure date picker has updated
-					setTimeout(updateTimeOptions, 100);
+					setTimeout(() => updateTimeOptions(), 100);
 				});
 			});
 		}
@@ -329,26 +410,24 @@ document.addEventListener('DOMContentLoaded', function() {
 		// Also listen for clicks on date inputs (for date picker popups)
 		if (elements.fromDateEl) {
 			elements.fromDateEl.addEventListener('click', function() {
-				console.log('🖱️ Start date clicked');
-				setTimeout(updateTimeOptions, 500); // Longer delay for date picker
+				if (isInitializing) return;
+				
+				setTimeout(() => updateTimeOptions(), 500); // Longer delay for date picker
 			});
 		}
 		
 		if (elements.toDateEl) {
 			elements.toDateEl.addEventListener('click', function() {
-				console.log('🖱️ End date clicked');
-				setTimeout(updateTimeOptions, 500); // Longer delay for date picker
+				if (isInitializing) return;
+				
+				setTimeout(() => updateTimeOptions(), 500); // Longer delay for date picker
 			});
 		}
-		
-		console.log('✅ Event listeners setup complete');
 	}
 	
 	// Submit button event listener
 	if (elements.submitButton) {
 		elements.submitButton.addEventListener('click', function(e) {
-			console.log('\n🚀 === Submit button clicked ===');
-
 			const searchData = {
 				from: elements.fromDateEl ? elements.fromDateEl.value : '',
 				to: elements.toDateEl ? elements.toDateEl.value : '',
@@ -356,25 +435,93 @@ document.addEventListener('DOMContentLoaded', function() {
 				to_time: elements.timeToEl ? elements.timeToEl.value : ''
 			};
 
-			console.log('📊 Collected search data:', searchData);
-
 			// Store in localStorage
 			localStorage.setItem('bookingSearchData', JSON.stringify(searchData));
-			
-			console.log('💾 Search data stored in localStorage');
-			console.log('=== Submit handling completed ===\n');
 		});
 	}
 	
-	// Initialize
-	setupEventListeners();
+	// Initialize with proper sequence
+	function initialize() {
+		// Set initialization flag
+		isInitializing = true;
+		
+		// Setup event listeners first
+		setupEventListeners();
+		
+		// Fill initial dates and times
+		fillInitialDatesAndTimes();
+		
+		// Update time options with skip flag to prevent clearing the values we just set
+		updateTimeOptions(true);
+		
+		// Clear initialization flag
+		isInitializing = false;
+	}
 	
-	// Initial update with delay to ensure page is fully loaded
-	setTimeout(() => {
-		console.log('🎯 Running initial time options update...');
-		updateTimeOptions();
-	}, 500);
-	
-	console.log('✅ Booking form setup complete');
+	// Start initialization with delay to ensure page is fully loaded
+	setTimeout(initialize, 1000);
+
+	const submitButton = document.querySelector('.yith-wcbk-booking-search-form-submit');
+    const locationInput = document.querySelector('.yith-wcbk-booking-location');
+    
+    if (submitButton && locationInput) {
+        submitButton.addEventListener('click', function(e) {
+            // Check if location input is empty
+            if (!locationInput.value.trim()) {
+                e.preventDefault(); // Prevent form submission
+                
+                // Create popup/modal
+                showLocationRequiredPopup();
+            }
+        });
+    }
+    
+    function showLocationRequiredPopup() {
+        // Remove existing popup if present
+        const existingPopup = document.querySelector('.location-required-popup');
+        if (existingPopup) {
+            existingPopup.remove();
+        }
+        
+        // Create popup HTML
+        const popup = document.createElement('div');
+        popup.className = 'location-required-popup';
+        popup.innerHTML = `
+            <div class="popup-overlay">
+                <div class="popup-content">
+                    <h3>Location Required</h3>
+                    <p>Please select a location before searching for bookings.</p>
+                    <button class="popup-close-btn">OK</button>
+                </div>
+            </div>
+        `;
+        
+        // Add popup to page
+        document.body.appendChild(popup);
+        
+        // Add click event to close button
+        const closeBtn = popup.querySelector('.popup-close-btn');
+        const overlay = popup.querySelector('.popup-overlay');
+        
+        closeBtn.addEventListener('click', closePopup);
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) {
+                closePopup();
+            }
+        });
+        
+        // Focus on location input after closing
+        function closePopup() {
+            popup.remove();
+            locationInput.focus();
+        }
+        
+        // Close popup on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.querySelector('.location-required-popup')) {
+                closePopup();
+            }
+        });
+    }
 });
 </script>
