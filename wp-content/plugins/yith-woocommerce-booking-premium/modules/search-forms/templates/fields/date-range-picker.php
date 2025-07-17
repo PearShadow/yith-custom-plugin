@@ -294,7 +294,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			return `${year}-${month}-${day}`;
 		};
 		
-		// Format time to HH:MM
+		// Format time to HH:MM, ensuring 00:00 for midnight
 		const formatTime = (time) => {
 			// Check if time is already in HH:MM format
 			if (typeof time === 'string' && /^\d{2}:\d{2}$/.test(time)) {
@@ -303,7 +303,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			// Convert hour number to HH:MM format
 			const hour = parseInt(time, 10);
 			if (isNaN(hour)) return '00:00'; // Fallback if invalid
-			const formattedHour = String(hour).padStart(2, '0');
+			// Use modulo to convert 24 to 00 for midnight
+			const formattedHour = hour === 24 ? '00' : String(hour % 24).padStart(2, '0');
 			return `${formattedHour}:00`;
 		};
 		

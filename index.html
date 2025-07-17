@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Technical SEO Audit Reports | Code & Cart</title>
+    <link rel="icon" type="image/png" href="Stacked Logo_Blk Back.png"> <script src="https://cdn.tailwindcss.com"></script>
+    <style type="text/tailwindcss">
+        @tailwind base;
+        @tailwind components;
+        @tailwind utilities;
+
+        /* Define Brand Colors as CSS Variables */
+        :root {
+            --cc-green: #96BF48; /* Primary Green */
+            --cc-blue: #479CCF;  /* Accent Blue */
+            --cc-dark-grey: #2D3538; /* Dark Grey */
+            --cc-off-white: #F5F5F5; /* Off White */
+            --cc-light-blue-grey: #F2F7FA; /* Light Blue Grey */
+            --cc-medium-grey: #666666; /* Medium Grey */
+            --warning-orange: #FFA500;
+            --critical-red: #DC2626;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--cc-dark-grey);
+            background-color: var(--cc-off-white);
+            scroll-behavior: smooth; /* For smooth scrolling to #anchors */
+        }
+
+        .hero-section {
+            background-color: var(--cc-dark-grey);
+            color: var(--cc-off-white);
+        }
+
+        .hero-section h1 {
+            color: var(--cc-off-white);
+        }
+        .hero-section .logo-placeholder svg {
+            filter: brightness(0) invert(1); /* Make SVG white for dark background */
+        }
+
+        .btn-primary {
+            @apply bg-[var(--cc-green)] text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-opacity-90 transition-colors duration-300 text-base md:text-lg;
+        }
+        .btn-secondary {
+            @apply bg-[var(--cc-blue)] text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-opacity-90 transition-colors duration-300 text-sm md:text-base;
+        }
+
+        .report-card {
+            @apply bg-white p-6 rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl w-full flex flex-col;
+            border-left: 5px solid var(--cc-green);
+        }
+        .report-card h3 {
+            color: var(--cc-dark-grey);
+        }
+        .report-card p {
+            @apply flex-grow;
+        }
+        .report-card a.btn-secondary {
+            @apply text-white mt-auto;
+        }
+        .report-card a:hover {
+            text-decoration: none;
+        }
+
+        .feature-list li {
+            @apply mb-4; /* Increased bottom margin for stacked layout */
+        }
+        /* Container for icon and text, stacks vertically on mobile, row on sm+ */
+        .feature-list .feature-item-container {
+             @apply flex flex-col sm:flex-row sm:items-start;
+        }
+        /* Container for icon only */
+        .feature-list .feature-icon-container {
+             @apply flex items-center mb-1 sm:mb-0 sm:mr-3; /* Flex center icon, add margin-right on sm+ */
+        }
+
+        .feature-list svg {
+            @apply w-5 h-5 text-[var(--cc-green)] flex-shrink-0;
+        }
+        /* Text container */
+        .feature-list .feature-text {
+             @apply flex-1; /* Allow text to take remaining space */
+        }
+        .feature-list .feature-text strong {
+             /* Display block by default (mobile), inline on sm+ */
+            @apply block font-semibold text-base mb-0.5 sm:inline sm:mb-0;
+        }
+
+
+        .logo-placeholder {
+            padding: 1rem 0;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+             @apply md:mb-4;
+        }
+        .logo-placeholder svg {
+             width: 160px;
+             height: auto;
+             @apply sm:w-[180px] md:w-[200px];
+        }
+        footer {
+            background-color: var(--cc-dark-grey);
+            color: var(--cc-light-blue-grey);
+        }
+
+    </style>
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+</head>
+<body class="leading-normal tracking-normal">
+
+    <header class="hero-section py-10 md:py-16 text-center">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="logo-placeholder mx-auto">
+                <svg viewBox="0 0 533 136" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <title>Group 522</title>
+                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g id="Group-529" transform="translate(-872.000000, -316.000000)" fill-rule="nonzero">
+                            <g id="Group-522" transform="translate(872.000000, 316.000000)">
+                                <g id="Group-521" transform="translate(211.925000, 0.000000)">
+                                    <g id="shopping-bag-svgrepo-com" fill="#96BF48">
+                                        <path d="M109,117.87042 L101.149741,29.6717036 C101.008549,27.9263093 99.5401554,26.6031877 97.7611399,26.6031877 L81.2134715,26.6031877 C81.1852332,11.9362451 69.2121762,0 54.5,0 C39.7878238,0 27.8147668,11.9362451 27.7865285,26.6031877 L11.2388601,26.6031877 C9.4880829,26.6031877 8.01968912,27.9263093 7.85025907,29.6717036 L0,117.87042 C0,117.983026 0,118.067481 0,118.180087 C0,128.004968 9.06450777,136 20.1904145,136 L88.8095855,136 C99.9354922,136 109,128.004968 109,118.180087 C109,118.067481 109,117.983026 109,117.87042 Z M54.5,6.75636514 C65.484715,6.75636514 74.4080311,15.6522459 74.4362694,26.6031877 L34.5637306,26.6031877 C34.5919689,15.6522459 43.515285,6.75636514 54.5,6.75636514 Z" id="Shape"></path>
+                                    </g>
+                                    <path d="M50.03,107.83 C52.6433333,107.83 55.0233333,107.41 57.17,106.57 C59.3166667,105.73 61.3,104.633333 63.12,103.28 C64.0066667,104.306667 64.7066667,105.1466667 65.22,105.8 C65.7333333,106.453333 65.99,106.78 65.99,106.78 L74.39,106.78 C74.39,106.78 73.7366667,105.975 72.43,104.365 C71.1233333,102.755 69.5366667,100.783333 67.67,98.45 C69.35,97.0966667 70.785,95.7783333 71.975,94.495 C73.165,93.2116667 74.0866667,92.1383333 74.74,91.275 C75.3933333,90.4116667 75.72,89.98 75.72,89.98 L69.91,85.22 C69.91,85.22 69.665,85.5933333 69.175,86.34 C68.685,87.0866667 67.95,88.0433333 66.97,89.21 C65.99,90.3766667 64.7766667,91.6133333 63.33,92.92 C61.4633333,90.54 59.6433333,88.2183333 57.87,85.955 C56.0966667,83.6916667 54.65,81.8366667 53.53,80.39 C55.8633333,78.43 57.695,76.645 59.025,75.035 C60.355,73.425 61.3116667,71.815 61.895,70.205 C62.4783333,68.595 62.77,66.8566667 62.77,64.99 C62.77,63.0766667 62.3033333,61.28 61.37,59.6 C60.4366667,57.92 59.0833333,56.5666667 57.31,55.54 C55.5366667,54.5133333 53.3666667,54 50.8,54 C48.4666667,54 46.3316667,54.49 44.395,55.47 C42.4583333,56.45 40.93,57.8383333 39.81,59.635 C38.69,61.4316667 38.13,63.5433333 38.13,65.97 C38.13,68.2566667 38.5966667,70.2866667 39.53,72.06 C40.4633333,73.8333333 41.8633333,75.9333333 43.73,78.36 C40.9766667,80.32 38.6666667,82.4083333 36.8,84.625 C34.9333333,86.8416667 34,89.5366667 34,92.71 C34,96.1633333 34.7816667,99.01 36.345,101.25 C37.9083333,103.49 39.915,105.146667 42.365,106.22 C44.815,107.293333 47.37,107.83 50.03,107.83 Z M49.4,74.65 C48.0466667,72.8766667 46.985,71.29 46.215,69.89 C45.445,68.49 45.06,67.1833333 45.06,65.97 C45.06,64.0566667 45.6433333,62.6333333 46.81,61.7 C47.9766667,60.7666667 49.2133333,60.3 50.52,60.3 C52.1066667,60.3 53.355,60.7433333 54.265,61.63 C55.175,62.5166667 55.63,63.7066667 55.63,65.2 C55.63,67.02 55.14,68.6066667 54.16,69.96 C53.18,71.3133333 51.5933333,72.8766667 49.4,74.65 Z M50.59,100.9 C47.8366667,100.9 45.7833333,100.141667 44.43,98.625 C43.0766667,97.1083333 42.4,95.23 42.4,92.99 C42.4,91.4033333 42.7966667,89.9683333 43.59,88.685 C44.3833333,87.4016667 45.8533333,85.9666667 48,84.38 C48.8866667,85.4533333 49.925,86.7366667 51.115,88.23 C52.305,89.7233333 53.5533333,91.2866667 54.86,92.92 C56.1666667,94.5533333 57.4033333,96.1166667 58.57,97.61 C56.75,99.1966667 55.1633333,100.141667 53.81,100.445 C52.4566667,100.748333 51.3833333,100.9 50.59,100.9 Z" id="&amp;" fill="#FFFFFF"></path>
+                                </g>
+                                <g id="Group-519" transform="translate(0.000000, 54.000000)" fill="#FFFFFF">
+                                    <path d="M25.83,52.78 C27.8366667,52.78 29.785,52.57 31.675,52.15 C33.565,51.73 35.2333333,51.205 36.68,50.575 C38.1266667,49.945 39.1533333,49.35 39.76,48.79 L39.76,48.79 L37.45,42.14 C35.3966667,43.4 33.4016667,44.2983333 31.465,44.835 C29.5283333,45.3716667 27.5566667,45.64 25.55,45.64 C21.91,45.64 18.8183333,44.7766667 16.275,43.05 C13.7316667,41.3233333 11.8066667,39.025 10.5,36.155 C9.19333333,33.285 8.54,30.1 8.54,26.6 C8.54,22.6333333 9.29833333,19.2033333 10.815,16.31 C12.3316667,13.4166667 14.385,11.1766667 16.975,9.59 C19.565,8.00333333 22.47,7.21 25.69,7.21 C28.1633333,7.21 30.3216667,7.56 32.165,8.26 C34.0083333,8.96 35.56,9.87 36.82,10.99 L36.82,10.99 L40.25,3.99 C39.9233333,3.61666667 39.13,3.115 37.87,2.485 C36.61,1.855 35,1.28333333 33.04,0.77 C31.08,0.256666667 28.84,0 26.32,0 C22.4466667,0 18.9,0.653333333 15.68,1.96 C12.46,3.26666667 9.68333333,5.09833333 7.35,7.455 C5.01666667,9.81166667 3.20833333,12.6 1.925,15.82 C0.641666667,19.04 0,22.5866667 0,26.46 C0,30.0066667 0.571666667,33.355 1.715,36.505 C2.85833333,39.655 4.53833333,42.455 6.755,44.905 C8.97166667,47.355 11.6783333,49.28 14.875,50.68 C18.0716667,52.08 21.7233333,52.78 25.83,52.78 Z" id="Path"></path>
+                                    <path d="M74.83,0 C78.2833333,0 81.5616667,0.595 84.665,1.785 C87.7683333,2.975 90.5216667,4.71333333 92.925,7 C95.3283333,9.28666667 97.2183333,12.0633333 98.595,15.33 C99.9716667,18.5966667 100.66,22.3066667 100.66,26.46 C100.66,30.5666667 99.9716667,34.2533333 98.595,37.52 C97.2183333,40.7866667 95.34,43.575 92.96,45.885 C90.58,48.195 87.8383333,49.9566667 84.735,51.17 C81.6316667,52.3833333 78.33,52.99 74.83,52.99 C71.33,52.99 68.0283333,52.3833333 64.925,51.17 C61.8216667,49.9566667 59.08,48.195 56.7,45.885 C54.32,43.575 52.4416667,40.7866667 51.065,37.52 C49.6883333,34.2533333 49,30.5666667 49,26.46 C49,22.3066667 49.6883333,18.5966667 51.065,15.33 C52.4416667,12.0633333 54.3316667,9.28666667 56.735,7 C59.1383333,4.71333333 61.8916667,2.975 64.995,1.785 C68.0983333,0.595 71.3766667,0 74.83,0 Z M74.83,7.14 C71.61,7.14 68.6816667,7.875 66.045,9.345 C63.4083333,10.815 61.2966667,12.985 59.71,15.855 C58.1233333,18.725 57.33,22.2833333 57.33,26.53 C57.33,30.73 58.1466667,34.265 59.78,37.135 C61.4133333,40.005 63.56,42.1866667 66.22,43.68 C68.88,45.1733333 71.75,45.92 74.83,45.92 C78.0033333,45.92 80.92,45.1733333 83.58,43.68 C86.24,42.1866667 88.3633333,40.005 89.95,37.135 C91.5366667,34.265 92.33,30.73 92.33,26.53 C92.33,22.2833333 91.5366667,18.725 89.95,15.855 C88.3633333,12.985 86.2516667,10.815 83.615,9.345 C80.9783333,7.875 78.05,7.14 74.83,7.14 Z" id="Combined-Shape"></path>
+                                    <path d="M121.39,1 L122.077838,1.00385 C126.401446,1.05261667 130.103833,1.56466667 133.185,2.54 C136.428333,3.56666667 139.1,4.93166667 141.2,6.635 C143.3,8.33833333 144.945,10.275 146.135,12.445 C147.325,14.615 148.153333,16.855 148.62,19.165 C149.086667,21.475 149.32,23.7033333 149.32,25.85 C149.32,29.07 148.865,32.255 147.955,35.405 C147.045,38.555 145.54,41.4133333 143.44,43.98 C141.34,46.5466667 138.528333,48.6 135.005,50.14 C131.481667,51.68 127.083333,52.45 121.81,52.45 L121.81,52.45 L109,52.45 L109,1 L121.39,1 Z M122.65,7.86 L116.84,7.86 L116.84,45.52 L122.65,45.52 C126.103333,45.52 129.008333,44.9833333 131.365,43.91 C133.721667,42.8366667 135.611667,41.3783333 137.035,39.535 C138.458333,37.6916667 139.485,35.615 140.115,33.305 C140.745,30.995 141.06,28.6266667 141.06,26.2 C141.06,22.8866667 140.476667,19.8416667 139.31,17.065 C138.143333,14.2883333 136.218333,12.06 133.535,10.38 C130.851667,8.7 127.223333,7.86 122.65,7.86 L122.65,7.86 Z" id="Combined-Shape"></path>
+                                    <polygon id="Path" points="183.85 52.45 183.85 45.52 166.77 45.52 166.77 29.07 178.67 29.07 178.67 22.07 166.77 22.07 166.77 7.86 181.54 7.86 181.54 1 159 1 159 52.45"></polygon>
+                                </g>
+                                <g id="Group-520" transform="translate(349.000000, 55.000000)" fill="#FFFFFF">
+                                    <path d="M25.83,52.78 C27.8366667,52.78 29.785,52.57 31.675,52.15 C33.565,51.73 35.2333333,51.205 36.68,50.575 C38.1266667,49.945 39.1533333,49.35 39.76,48.79 L37.45,42.14 C35.3966667,43.4 33.4016667,44.2983333 31.465,44.835 C29.5283333,45.3716667 27.5566667,45.64 25.55,45.64 C21.91,45.64 18.8183333,44.7766667 16.275,43.05 C13.7316667,41.3233333 11.8066667,39.025 10.5,36.155 C9.19333333,33.285 8.54,30.1 8.54,26.6 C8.54,22.6333333 9.29833333,19.2033333 10.815,16.31 C12.3316667,13.4166667 14.385,11.1766667 16.975,9.59 C19.565,8.00333333 22.47,7.21 25.69,7.21 C28.1633333,7.21 30.3216667,7.56 32.165,8.26 C34.0083333,8.96 35.56,9.87 36.82,10.99 L40.25,3.99 C39.9233333,3.61666667 39.13,3.115 37.87,2.485 C36.61,1.855 35,1.28333333 33.04,0.77 C31.08,0.256666667 28.84,0 26.32,0 C22.4466667,0 18.9,0.653333333 15.68,1.96 C12.46,3.26666667 9.68333333,5.09833333 7.35,7.455 C5.01666667,9.81166667 3.20833333,12.6 1.925,15.82 C0.641666667,19.04 0,22.5866667 0,26.46 C0,30.0066667 0.571666667,33.355 1.715,36.505 C2.85833333,39.655 4.53833333,42.455 6.755,44.905 C8.97166667,47.355 11.6783333,49.28 14.875,50.68 C18.0716667,52.08 21.7233333,52.78 25.83,52.78 Z" id="Path"></path>
+                                    <path d="M73.41,0 L98.19,51.52 L89.16,51.52 L84.75,41.44 L61.16,41.44 L56.75,51.52 L48,51.52 L72.64,0 L73.41,0 Z M73.13,14.91 L72.99,14.91 L69.91,21.91 L64.31,34.37 L81.67,34.37 L76.14,21.98 L73.13,14.91 Z" id="Combined-Shape"></path>
+                                    <path d="M118.69,0 L119.47155,0.0077 C121.80885,0.0539 124.08,0.308 126.285,0.77 C128.735,1.28333333 130.916667,2.14666667 132.83,3.36 C134.743333,4.57333333 136.26,6.18333333 137.38,8.19 C138.5,10.1966667 139.06,12.67 139.06,15.61 C139.06,19.0166667 138.266667,21.98 136.68,24.5 C135.093333,27.02 132.69,28.9566667 129.47,30.31 L129.47,30.31 L141.72,51.45 L132.69,51.45 L122.33,31.99 L122.024297,32.0069531 C121.291849,32.0452344 120.425417,32.0745833 119.425,32.095 C118.408704,32.1157407 117.549115,32.1272634 116.846235,32.1295679 L116.846235,32.1295679 L114.63,32.13 L114.63,51.45 L107,51.45 L107,0 L118.69,0 Z M119.32,6.51 L114.63,6.51 L114.63,25.76 L119.6,25.76 C122.166667,25.76 124.231667,25.4333333 125.795,24.78 C127.358333,24.1266667 128.56,23.2983333 129.4,22.295 C130.24,21.2916667 130.811667,20.195 131.115,19.005 C131.418333,17.815 131.57,16.7066667 131.57,15.68 C131.57,13.3933333 131.045,11.585 129.995,10.255 C128.945,8.925 127.498333,7.96833333 125.655,7.385 C123.811667,6.80166667 121.7,6.51 119.32,6.51 L119.32,6.51 Z" id="Combined-Shape"></path>
+                                    <polygon id="Path" points="169.93 51.45 169.93 6.86 183.23 6.86 183.23 0 149 0 149 6.86 162.16 6.86 162.16 51.45"></polygon>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+            </div>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Unlock Your Website's Potential</h1>
+            <p class="text-lg sm:text-xl md:text-2xl mb-8 text-[var(--cc-light-blue-grey)]">Get a <span style="color: var(--cc-green); font-weight: 600;">FREE</span> Comprehensive Technical SEO Audit Report!</p>
+            <a href="#learn-more" class="btn-primary">Learn More & See Examples</a>
+        </div>
+    </header>
+
+    <section id="learn-more" class="py-12 md:py-16 bg-[var(--cc-light-blue-grey)]">
+        <div class="container mx-auto px-4 sm:px-6">
+            <h2 class="text-2xl sm:text-3xl font-bold text-center mb-10 md:mb-12">What's Inside Your Free SEO Audit?</h2>
+            <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                <div class="mb-8 md:mb-0">
+                    <div class="bg-white p-6 rounded-lg shadow-xl mx-auto w-full max-w-md">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-bold text-[var(--cc-dark-grey)]">SEO Audit Overview</h3>
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-[var(--cc-green)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                <span class="ml-1 text-sm font-medium">Code & Cart</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Overall Score -->
+                        <div class="bg-[var(--cc-light-blue-grey)] p-4 rounded-lg mb-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-medium">Overall SEO Score</span>
+                                <span class="text-sm font-bold">5.2/10</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-[var(--cc-blue)] h-2.5 rounded-full" style="width: 52%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold mb-2">Core Web Vitals</h4>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="bg-[var(--cc-light-blue-grey)] p-2 rounded">
+                                    <div class="flex justify-between">
+                                        <span class="text-xs">Mobile</span>
+                                        <span class="text-xs font-bold text-[var(--warning-orange)]">42/100</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                                        <div class="bg-[var(--warning-orange)] h-1.5 rounded-full" style="width: 42%"></div>
+                                    </div>
+                                </div>
+                                <div class="bg-[var(--cc-light-blue-grey)] p-2 rounded">
+                                    <div class="flex justify-between">
+                                        <span class="text-xs">Desktop</span>
+                                        <span class="text-xs font-bold text-[var(--cc-green)]">78/100</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                                        <div class="bg-[var(--cc-green)] h-1.5 rounded-full" style="width: 78%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold mb-2">Issues Found</h4>
+                            <div class="flex justify-between mb-1">
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 rounded-full bg-[var(--critical-red)] mr-2"></div>
+                                    <span class="text-xs">Critical</span>
+                                </div>
+                                <span class="text-xs font-medium">7 issues</span>
+                            </div>
+                            <div class="flex justify-between mb-1">
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 rounded-full bg-[var(--warning-orange)] mr-2"></div>
+                                    <span class="text-xs">Warnings</span>
+                                </div>
+                                <span class="text-xs font-medium">12 issues</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 rounded-full bg-[var(--cc-green)] mr-2"></div>
+                                    <span class="text-xs">Passed</span>
+                                </div>
+                                <span class="text-xs font-medium">23 checks</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-center items-center">
+                            <div class="w-full h-24 flex items-end justify-between">
+                                <div class="w-8 bg-[var(--cc-blue)] rounded-t h-12"></div>
+                                <div class="w-8 bg-[var(--cc-green)] rounded-t h-16"></div>
+                                <div class="w-8 bg-[var(--warning-orange)] rounded-t h-10"></div>
+                                <div class="w-8 bg-[var(--critical-red)] rounded-t h-6"></div>
+                                <div class="w-8 bg-[var(--cc-medium-grey)] rounded-t h-14"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <p class="mb-6 text-base md:text-lg">Our detailed technical SEO audit, powered by industry-standard tools like Lighthouse and Screaming Frog, provides actionable insights to improve your website's performance, visibility, and user experience. Here’s what we cover:</p>
+                     <ul class="feature-list text-sm md:text-base">
+                        <li>
+                            <div class="feature-item-container">
+                                <div class="feature-icon-container">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                </div>
+                                <div class="feature-text"><strong>Executive Summary:</strong> A clear overview of findings with an overall estimated SEO Score (1-10) to quickly gauge your site's health.</div>
+                            </div>
+                        </li>
+                        <li>
+                              <div class="feature-item-container">
+                                <div class="feature-icon-container">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                </div>
+                                <div class="feature-text"><strong>Lighthouse Analysis:</strong> In-depth scores and metrics for Performance, Accessibility, Best Practices, and SEO on both Desktop and Mobile.</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="feature-item-container">
+                                <div class="feature-icon-container">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                </div>
+                                <div class="feature-text"><strong>Core Web Vitals:</strong> Focus on Largest Contentful Paint (LCP), Total Blocking Time (TBT), Speed Index, and Cumulative Layout Shift (CLS).</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="feature-item-container">
+                                <div class="feature-icon-container">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                </div>
+                                <div class="feature-text"><strong>On-Page SEO Elements:</strong> Analysis of page titles, meta descriptions, H1 tags, and image alt text (based on Screaming Frog crawl data).</div>
+                            </div>
+                        </li>
+                        <li>
+                             <div class="feature-item-container">
+                                <div class="feature-icon-container">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                </div>
+                                <div class="feature-text"><strong>Crawlability & Indexation:</strong> Review of HTTP response codes, crawl depth, and canonicalization.</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="feature-item-container">
+                                <div class="feature-icon-container">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                </div>
+                                <div class="feature-text"><strong>Actionable Recommendations:</strong> Clear "Must Have," "Could/Should Have," and "Fine" categorizations for prioritized improvements.</div>
+                            </div>
+                        </li>
+                         <li>
+                             <div class="feature-item-container">
+                                <div class="feature-icon-container">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                </div>
+                                <div class="feature-text"><strong>Data Visualizations:</strong> Easy-to-understand charts and graphs to illustrate key findings.</div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="mt-8 text-center md:text-left">
+                        <a href="#request-audit" class="btn-primary">Get Free Audit</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 md:py-16">
+        <div class="container mx-auto px-4 sm:px-6">
+            <h2 class="text-2xl sm:text-3xl font-bold text-center mb-10 md:mb-12">See Our Audits in Action</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="report-card">
+                    <h3 class="text-xl md:text-2xl font-semibold mb-3">Moonglow Audit</h3>
+                    <p class="text-sm text-[var(--cc-medium-grey)] mb-4">Identified critical site speed and indexability issues (missing H1s, meta descriptions). Estimated SEO Score: 4/10.</p>
+                    <a href="moonglow.html" target="_blank" class="inline-block btn-secondary text-white">View Full Report &rarr;</a>
+                </div>
+
+                <div class="report-card">
+                    <h3 class="text-xl md:text-2xl font-semibold mb-3">MyFunColors Audit</h3>
+                    <p class="text-sm text-[var(--cc-medium-grey)] mb-4">Highlighted desktop performance concerns despite good SEO basics. Estimated SEO Score: 6/10.</p>
+                    <a href="myfuncolors.html" target="_blank" class="inline-block btn-secondary text-white">View Full Report &rarr;</a>
+                </div>
+
+                <div class="report-card">
+                    <h3 class="text-xl md:text-2xl font-semibold mb-3">Emuaid Audit</h3>
+                    <p class="text-sm text-[var(--cc-medium-grey)] mb-4">Revealed severe mobile performance problems (LCP, TBT). Estimated SEO Score: 3/10.</p>
+                    <a href="emuaid.html" target="_blank" class="inline-block btn-secondary text-white">View Full Report &rarr;</a>
+                </div>
+                <div class="report-card">
+                    <h3 class="text-xl md:text-2xl font-semibold mb-3">High Voltage Industries Audit</h3>
+                    <p class="text-sm text-[var(--cc-medium-grey)] mb-4">Identified significant performance issues on desktop and LCP on mobile. Estimated SEO Score: 6/10.</p>
+                    <a href="highvoltageindustries.html" target="_blank" class="inline-block btn-secondary text-white">View Full Report &rarr;</a>
+                </div>
+                <!-- New 96north Audit Card -->
+                <div class="report-card">
+                    <h3 class="text-xl md:text-2xl font-semibold mb-3">96north Audit</h3>
+                    <p class="text-sm text-[var(--cc-medium-grey)] mb-4">Found good foundational SEO with opportunities for mobile performance and on-page element refinement. Estimated SEO Score: 7/10.</p>
+                    <a href="96north.html" target="_blank" class="inline-block btn-secondary text-white">View Full Report &rarr;</a>
+                </div>
+                <!-- New Yellow Leaf Hammocks Audit Card -->
+                <div class="report-card">
+                    <h3 class="text-xl md:text-2xl font-semibold mb-3">Yellow Leaf Hammocks Audit</h3>
+                    <p class="text-sm text-[var(--cc-medium-grey)] mb-4">Discovered missing SEO fundamentals (meta descriptions, H1 tags) and content optimization opportunities. Estimated SEO Score: 5.2/10.</p>
+                    <a href="yellowleaf-hammocks-audit-report.html" target="_blank" class="inline-block btn-secondary text-white">View Full Report &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="request-audit" class="py-12 md:py-16 bg-[var(--cc-blue)] text-white">
+        <div class="container mx-auto px-4 sm:px-6 text-center">
+            <h2 class="text-2xl sm:text-3xl font-bold mb-6">Ready to Improve Your Website?</h2>
+            <p class="text-lg md:text-xl mb-8">Let Code & Cart provide you with a free, no-obligation technical SEO audit. Understand your site's weaknesses and unlock its true potential.</p>
+            <button class="btn-primary text-lg md:text-xl bg-[var(--cc-green)] hover:bg-opacity-90" onclick="location.href='https://www.codeandcart.com/product/seo-audit'">Get Your Free Audit Now!</button>
+            <p class="mt-4 text-sm text-[var(--cc-light-blue-grey)]">"Smart Code. Smarter Commerce."</p>
+        </div>
+    </section>
+
+    <footer class="py-8 text-center">
+        <p class="text-sm">&copy; <span id="currentYear"></span> <a href="www.codeandcart.com" class="hover:text-[var(--cc-green)] transition-colors">Code & Cart.</a> All Rights Reserved.</p>
+        <p class="text-xs mt-1">Your Partner in Scalable Digital Solutions.</p>
+    </footer>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+
+</body>
+</html>
