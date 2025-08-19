@@ -109,7 +109,10 @@ $current_id = $search_form->get_unique_id();
 			
 			?>
 			
-			<div class="yith-wcbk-search-form-field">
+		</div>
+	</div>
+	<div class="yith-wcbk-search-form-field">
+	        <div class="container-search-comp-time-fields">
 				<label class="labe_time_picker" for="yith_start_time"><?php _e('Start Time', 'yith-woocommerce-booking'); ?></label>
 				<select name="yith_start_time" id="time_from" class="yith-wcbk-time-picker">
 					<option value=""><?php _e('Start time', 'yith-woocommerce-booking'); ?></option>
@@ -128,6 +131,8 @@ $current_id = $search_form->get_unique_id();
 						}
 					?>
 				</select>
+			</div>
+			<div class="container-search-comp-time-fields">
 				<label class="labe_time_picker" for="yith_end_time"><?php _e('End Time', 'yith-woocommerce-booking'); ?></label>
 				<select name="yith_end_time" id="time_to" class="yith-wcbk-time-picker">
 					<option value=""><?php _e('End time', 'yith-woocommerce-booking'); ?></option>
@@ -142,8 +147,7 @@ $current_id = $search_form->get_unique_id();
 					?>
 				</select>
 			</div>
-		</div>
-	</div>
+			</div>
 </div>
 
 <script>
@@ -199,9 +203,20 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (option.value !== '') {
 				const optionHour = parseInt(option.getAttribute('data-hour'));
 				
-				if (optionHour < config.currentHourPlusThree) {
+				// Base cutoff = currentHourPlusThree
+				let cutoff = config.currentHourPlusThree;
+
+				// If end time, require +1 extra hour
+				if (label === 'end time') {
+					cutoff += 1;
+				}
+
+				if (optionHour < cutoff) {
 					option.style.display = 'none';
 					option.disabled = true;
+				} else {
+					option.style.display = '';
+					option.disabled = false;
 				}
 			}
 		});
@@ -294,7 +309,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			return `${year}-${month}-${day}`;
 		};
 		
-		// Format time to HH:MM, ensuring 00:00 for midnight
+		// Format time to HH:MM
 		const formatTime = (time) => {
 			// Check if time is already in HH:MM format
 			if (typeof time === 'string' && /^\d{2}:\d{2}$/.test(time)) {
@@ -303,8 +318,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			// Convert hour number to HH:MM format
 			const hour = parseInt(time, 10);
 			if (isNaN(hour)) return '00:00'; // Fallback if invalid
-			// Use modulo to convert 24 to 00 for midnight
-			const formattedHour = hour === 24 ? '00' : String(hour % 24).padStart(2, '0');
+			const formattedHour = String(hour).padStart(2, '0');
 			return `${formattedHour}:00`;
 		};
 		
@@ -461,7 +475,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	// Start initialization with delay to ensure page is fully loaded
 	setTimeout(initialize, 1000);
-
+	
 	const submitButton = document.querySelector('.yith-wcbk-booking-search-form-submit');
     const locationInput = document.querySelector('.yith-wcbk-booking-location');
     

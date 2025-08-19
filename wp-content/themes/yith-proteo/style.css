@@ -9534,7 +9534,7 @@ SELECT2
 Photobox (image zoom on single product page)
  */
 .pswp__bg {
-  background: var(--proteo-main_color_shade, #448a85);
+  background: white;
 }
 
 /**

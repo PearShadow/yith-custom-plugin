@@ -32,6 +32,26 @@
 	color: black;
 }
 
+.yith-wcbk-search-form-field {
+	display: flex;
+}
+
+.container-search-comp-time-fields {
+    width: 50%;
+}
+
+.yith-wcbk-booking-search-form__row .yith-wcbk-booking-search-form__row--location {
+    margin-bottom: 0 !important;
+}
+
+.labe_time_picker {
+    padding: 8px 0;
+}
+
+body .yith-wcbk-booking-search-form form .yith-wcbk-booking-search-form__row {
+    margin-bottom: 0 !important;
+}
+
 .yith-wcbk-date-range-picker .yith-wcbk-date-range-picker__arrow {
 	position    : absolute;
 	font-size   : 14px;

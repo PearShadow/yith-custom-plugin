@@ -34,10 +34,12 @@
   display: none;
 }
 
-.labe_time_picker {
-	color: white;
-	display: inline-flex;
-	margin: 5px 0;
+.yith-wcbk-search-form-field {
+	display: flex;
+}
+
+.container-search-comp-time-fields {
+    width: 50%;
 }
 
 /* Add this CSS to your theme's style.css or custom CSS file */
@@ -135,6 +137,22 @@
     .popup-content h3 {
         font-size: 1.2em;
     }
+}
+
+@media only screen and (max-width: 782px) {
+    .yith-wcbk-search-form-field {
+	    flex-direction: column;
+    }
+
+    .container-search-comp-time-fields {
+        width: 100%;
+    }
+}
+
+.labe_time_picker {
+	color: white;
+	display: inline-flex;
+	margin: 5px 0;
 }
 
 .yith-wcbk-booking-form-message p.error {

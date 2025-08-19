@@ -316,7 +316,7 @@ ul.products li .by-vendor-name-link:after {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  color: var(--ywcmv-header-text-color, #000000);
+  color: black;
 }
 .store-header-wrapper .store-name {
   font-size: 20px;
@@ -328,6 +328,7 @@ ul.products li .by-vendor-name-link:after {
   height: auto;
 }
 .store-header-wrapper .store-info-wrapper {
+  color: black !important;
   align-self: stretch;
   padding: 30px 20px;
   text-align: left;
