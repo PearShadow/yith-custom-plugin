@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarsReservation Vendor Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9fafb;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(220, 38, 38, 0.2);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .toc {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .toc h2 {
+            color: #dc2626;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #dc2626;
+        }
+
+        .toc-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f4f6;
+            transition: background-color 0.2s;
+        }
+
+        .toc-item:hover {
+            background-color: #f9fafb;
+            padding-left: 10px;
+            margin-left: -10px;
+            margin-right: -10px;
+        }
+
+        .toc-item:last-child {
+            border-bottom: none;
+        }
+
+        .section {
+            background: white;
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+        }
+
+        .section h2 {
+            color: #dc2626;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #dc2626;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section h3 {
+            color: #374151;
+            font-size: 1.5rem;
+            margin: 30px 0 15px 0;
+        }
+
+        .section h4 {
+            color: #4b5563;
+            font-size: 1.2rem;
+            margin: 25px 0 10px 0;
+        }
+
+        .section h5 {
+            color: #6b7280;
+            font-size: 1.1rem;
+            margin: 20px 0 8px 0;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            color: #4b5563;
+            line-height: 1.7;
+        }
+
+        .section ul, .section ol {
+            margin: 15px 0 15px 25px;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+            color: #4b5563;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border: 1px solid #3b82f6;
+            border-left: 4px solid #3b82f6;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .highlight-box.success {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            border-color: #10b981;
+        }
+
+        .highlight-box.warning {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-color: #f59e0b;
+        }
+
+        .highlight-box.danger {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border-color: #ef4444;
+        }
+
+        .highlight-box h4 {
+            margin-top: 0;
+            color: #1f2937;
+        }
+
+        .grid {
+            display: grid;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .card h5 {
+            margin-top: 0;
+            color: #1f2937;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin: 25px 0;
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 8px;
+            border-left: 4px solid #dc2626;
+        }
+
+        .step-number {
+            background: #dc2626;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .metric {
+            text-align: center;
+            padding: 25px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+            transition: border-color 0.2s;
+        }
+
+        .metric:hover {
+            border-color: #dc2626;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #dc2626;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 5px;
+        }
+
+        .metric-desc {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        .status-list {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-confirmed { background: #d1fae5; color: #065f46; }
+        .status-active { background: #dbeafe; color: #1e40af; }
+        .status-completed { background: #f3f4f6; color: #374151; }
+        .status-cancelled { background: #fee2e2; color: #991b1b; }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .contact-item {
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .contact-item h5 {
+            margin-top: 0;
+            color: #1f2937;
+        }
+
+        .contact-item p {
+            margin: 5px 0;
+        }
+
+        .contact-item .contact-detail {
+            font-weight: 600;
+            color: #dc2626;
+        }
+
+        .contact-item .contact-hours {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+            border-top: 2px solid #e5e7eb;
+            background: white;
+            border-radius: 12px;
+        }
+
+        .footer-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .footer-logo-icon {
+            width: 32px;
+            height: 32px;
+            background: #dc2626;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .section {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                page-break-inside: avoid;
+            }
+            
+            .header {
+                background: #dc2626 !important;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">🚗</div>
+                <div>
+                    <h1>CarsReservation</h1>
+                    <p>Complete Vendor Documentation Guide</p>
+                </div>
+            </div>
+            <p>Everything you need to know about joining and managing your car rental business on our platform</p>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="toc">
+            <h2>📋 Table of Contents</h2>
+            <div class="toc-item">
+                <span>1. Getting Started</span>
+                <span>Overview & Requirements</span>
+            </div>
+            <div class="toc-item">
+                <span>2. Creating Your Vendor Account</span>
+                <span>Step-by-Step Registration</span>
+            </div>
+            <div class="toc-item">
+                <span>3. Adding Your Cars</span>
+                <span>Vehicle Listing Process</span>
+            </div>
+            <div class="toc-item">
+                <span>4. Managing Your Listings</span>
+                <span>Dashboard & Tools</span>
+            </div>
+            <div class="toc-item">
+                <span>5. Managing Bookings & Payments</span>
+                <span>Revenue & Customer Management</span>
+            </div>
+            <div class="toc-item">
+                <span>6. Support & FAQ</span>
+                <span>Help & Contact Information</span>
+            </div>
+        </div>
+
+        <!-- Section 1: Getting Started -->
+        <div class="section">
+            <h2>👥 1. Getting Started</h2>
+            
+            <h3>Welcome to CarsReservation Vendor Platform</h3>
+            <p>Join thousands of car rental vendors across Bosnia and Herzegovina. Our platform connects you with customers looking for quality rental vehicles, helping you grow your business with minimal effort.</p>
+
+            <div class="highlight-box">
+                <h4>🎯 What You'll Get:</h4>
+                <ul>
+                    <li>Access to thousands of potential customers</li>
+                    <li>Easy-to-use dashboard for managing your fleet</li>
+                    <li>Automated booking and payment processing</li>
+                    <li>24/7 customer support</li>
+                    <li>Marketing tools to promote your vehicles</li>
+                </ul>
+            </div>
+
+            <div class="metrics">
+                <div class="metric">
+                    <div class="metric-value">85%</div>
+                    <div class="metric-label">Revenue Share</div>
+                    <div class="metric-desc">You keep 85% of rental fees</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">24h</div>
+                    <div class="metric-label">Fast Payments</div>
+                    <div class="metric-desc">Get paid within 24 hours</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">24/7</div>
+                    <div class="metric-label">Support Available</div>
+                    <div class="metric-desc">Round-the-clock assistance</div>
+                </div>
+            </div>
+
+            <h4>Requirements to Get Started:</h4>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h5>📄 Business Requirements</h5>
+                    <ul>
+                        <li>Valid business license</li>
+                        <li>Insurance documentation</li>
+                        <li>Tax identification number</li>
+                        <li>Bank account details</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h5>🚗 Vehicle Requirements</h5>
+                    <ul>
+                        <li>Valid registration documents</li>
+                        <li>Current insurance coverage</li>
+                        <li>Safety inspection certificates</li>
+                        <li>Clean maintenance records</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Creating Your Vendor Account -->
+        <div class="section">
+            <h2>📝 2. Creating Your Vendor Account</h2>
+            
+            <h3>Step-by-Step Account Setup</h3>
+            <p>Follow these steps to create your vendor account and get approved to start listing your vehicles.</p>
+
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Submit Your Email to Start Registration</h4>
+                    <p>Begin by providing your email address to initiate the registration process:</p>
+                    <div style="background: #f3f4f6; padding: 10px; border-radius: 4px; font-family: monospace; margin-top: 10px;">
+                        https://carsreservation.com/vendor/register
+                    </div>
+                    <p><strong>Your account will be created automatically</strong> once you submit your email.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Check Your Inbox and Set Password</h4>
+                    <p><strong>Check your inbox for a follow-up email</strong> containing a link to set your password.</p>
+                    <div class="highlight-box success">
+                        <p><strong>💡 Tip:</strong> Don't forget to check your spam folder if you don't see the email within a few minutes.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Complete Your Profile and Accept Terms</h4>
+                    <p><strong>After setting your password, complete your profile</strong> with the required details:</p>
+                    <ul>
+                        <li><strong>Vendor name</strong> (required) - Your business or personal name</li>
+                        <li><strong>Vendor email</strong> (required) - Your primary contact email</li>
+                        <li><strong>Phone</strong> (optional) - Contact phone number</li>
+                        <li><strong>PayPal email</strong> (optional) - For receiving payments via PayPal</li>
+                        <li><strong>VAT/SSN</strong> (optional) - Tax identification number</li>
+                    </ul>
+                    <p><strong>Before submitting, you must:</strong></p>
+                    <ul>
+                        <li>☑️ <strong>Accept the Terms & Conditions for Vendors</strong> (required)</li>
+                        <li>☑️ <strong>Accept the Privacy Policy for Vendors</strong> (required)</li>
+                    </ul>
+                    <p>Click <strong>"Become a vendor"</strong> to submit your application and <strong>wait for vendor approval</strong>. Our team will review your information within 2-3 business days.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>Set Up Your Store Settings (Optional)</h4>
+                    <p>After registration, you can customize your store with additional details:</p>
+                    <ul>
+                        <li><strong>Store information:</strong> Store name, slug, and description</li>
+                        <li><strong>Contact details:</strong> Address, phone number, email, and website</li>
+                        <li><strong>Business information:</strong> CIF/VAT number for tax purposes</li>
+                        <li><strong>Store branding:</strong> Add your logo and store banner</li>
+                        <li><strong>Company legal notes:</strong> Terms and policies for your business</li>
+                    </ul>
+                    <div class="highlight-box success">
+                        <p><strong>💡 Note:</strong> These store settings can be configured anytime after your account is approved.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h4>Set Up Payment Information (After Approval)</h4>
+                    <p>Once your vendor account is approved, access your dashboard to set up payment details:</p>
+                    <ul>
+                        <li><strong>Account name</strong> - Your bank account holder name</li>
+                        <li><strong>IBAN</strong> - International bank account number</li>
+                        <li><strong>SWIFT/BIC</strong> - Bank identifier code for international transfers</li>
+                        <li><strong>PayPal email</strong> - Alternative payment method (if preferred)</li>
+                    </ul>
+                    <p>Navigate to <strong>Payment info</strong> in your vendor dashboard and click <strong>"Save Payments Info"</strong> when complete.</p>
+                    <div class="highlight-box success">
+                        <p><strong>💡 Important:</strong> Payment information must be set up before you can receive earnings from bookings.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Adding Your Cars -->
+        <div class="section">
+            <h2>📝 2. Creating Your Vendor Account</h2>
+            
+            <h3>Step-by-Step Account Setup</h3>
+            <p>Follow these steps to create your vendor account and get approved to start listing your vehicles.</p>
+
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Submit Your Email to Start Registration</h4>
+                    <p>Begin by providing your email address to initiate the registration process:</p>
+                    <div style="background: #f3f4f6; padding: 10px; border-radius: 4px; font-family: monospace; margin-top: 10px;">
+                        https://carsreservation.com/vendor/register
+                    </div>
+                    <p><strong>Your account will be created automatically</strong> once you submit your email.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Check Your Inbox and Set Password</h4>
+                    <p><strong>Check your inbox for a follow-up email</strong> containing a link to set your password.</p>
+                    <div class="highlight-box success">
+                        <p><strong>💡 Tip:</strong> Don't forget to check your spam folder if you don't see the email within a few minutes.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Complete Your Profile and Accept Terms</h4>
+                    <p><strong>After setting your password, complete your profile</strong> with the required details:</p>
+                    <ul>
+                        <li><strong>Vendor name</strong> (required) - Your business or personal name</li>
+                        <li><strong>Vendor email</strong> (required) - Your primary contact email</li>
+                        <li><strong>Phone</strong> (optional) - Contact phone number</li>
+                        <li><strong>PayPal email</strong> (optional) - For receiving payments via PayPal</li>
+                        <li><strong>VAT/SSN</strong> (optional) - Tax identification number</li>
+                    </ul>
+                    <p><strong>Before submitting, you must:</strong></p>
+                    <ul>
+                        <li>☑️ <strong>Accept the Terms & Conditions for Vendors</strong> (required)</li>
+                        <li>☑️ <strong>Accept the Privacy Policy for Vendors</strong> (required)</li>
+                    </ul>
+                    <p>Click <strong>"Become a vendor"</strong> to submit your application and <strong>wait for vendor approval</strong>. Our team will review your information within 2-3 business days.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>Set Up Your Store Settings (Optional)</h4>
+                    <p>After registration, you can customize your store with additional details:</p>
+                    <ul>
+                        <li><strong>Store information:</strong> Store name, slug, and description</li>
+                        <li><strong>Contact details:</strong> Address, phone number, email, and website</li>
+                        <li><strong>Business information:</strong> CIF/VAT number for tax purposes</li>
+                        <li><strong>Store branding:</strong> Add your logo and store banner</li>
+                        <li><strong>Company legal notes:</strong> Terms and policies for your business</li>
+                    </ul>
+                    <div class="highlight-box success">
+                        <p><strong>💡 Note:</strong> These store settings can be configured anytime after your account is approved.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h4>Set Up Payment Information (After Approval)</h4>
+                    <p>Once your vendor account is approved, access your dashboard to set up payment details:</p>
+                    <ul>
+                        <li><strong>Account name</strong> - Your bank account holder name</li>
+                        <li><strong>IBAN</strong> - International bank account number</li>
+                        <li><strong>SWIFT/BIC</strong> - Bank identifier code for international transfers</li>
+                        <li><strong>PayPal email</strong> - Alternative payment method (if preferred)</li>
+                    </ul>
+                    <p>Navigate to <strong>Payment info</strong> in your vendor dashboard and click <strong>"Save Payments Info"</strong> when complete.</p>
+                    <div class="highlight-box success">
+                        <p><strong>💡 Important:</strong> Payment information must be set up before you can receive earnings from bookings.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">6</div>
+                <div class="step-content">
+                    <h4>Add Your Vehicles (Products)</h4>
+                    <p>Start listing your vehicles by clicking <strong>"Add New"</strong> in your Products section:</p>
+                    
+                    <h5>Required Information:</h5>
+                    <ul>
+                        <li><strong>Product name</strong> - Vehicle make, model, and year</li>
+                        <li><strong>Product description</strong> - Detailed vehicle information and features</li>
+                        <li><strong>Vehicle images</strong> - High-quality photos of your car</li>
+                        <li><strong>Product categories</strong> - Select appropriate categories:
+                            <ul style="margin-top: 5px;">
+                                <li>Engine type</li>
+                                <li>Transmission type</li>
+                                <li>Vehicle type</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h5>Pricing Setup:</h5>
+                    <ul>
+                        <li><strong>Base price 1 day</strong> - Set your daily rental rate (KM)</li>
+                    </ul>
+
+                    <h5>Booking Settings:</h5>
+                    <ul>
+                        <li><strong>Booking Duration</strong> - Set to "Customer can book units of 1 Hour(s)"</li>
+                        <li><strong>Default start date</strong> - Usually "Current day"</li>
+                        <li><strong>Default start time</strong> - Set preferred default booking time</li>
+                        <li><strong>Allowed Start Days</strong> - Choose which days bookings can begin (optional)</li>
+                    </ul>
+
+                    <div class="highlight-box success">
+                        <p><strong>💡 Tip:</strong> Make sure to set the product type to "Bookable Product" to enable reservation functionality.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Managing Your Listings -->
+        <div class="section">
+            <h2>⚙️ 4. Managing Your Listings</h2>
+            
+            <h3>Dashboard Overview</h3>
+            <p>Your vendor dashboard is your control center for managing all aspects of your car rental business.</p>
+
+            <h4>Key Dashboard Metrics:</h4>
+            <div class="metrics">
+                <div class="metric">
+                    <div class="metric-value">12</div>
+                    <div class="metric-label">Active Listings</div>
+                    <div class="metric-desc">Cars available for rent</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">8</div>
+                    <div class="metric-label">Active Bookings</div>
+                    <div class="metric-desc">Currently rented out</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">2,450</div>
+                    <div class="metric-label">Monthly Revenue</div>
+                    <div class="metric-desc">BAM this month</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">4.8</div>
+                    <div class="metric-label">Customer Rating</div>
+                    <div class="metric-desc">Average rating</div>
+                </div>
+            </div>
+
+            <h4>Key Management Functions:</h4>
+
+            <div class="card" style="margin: 20px 0;">
+                <h5>✏️ Editing Listings</h5>
+                <p>Keep your listings up-to-date to maintain high visibility and booking rates:</p>
+                <ul>
+                    <li><strong>Update Photos:</strong> Add new photos or replace old ones seasonally</li>
+                    <li><strong>Adjust Pricing:</strong> Modify rates based on demand and season</li>
+                    <li><strong>Update Availability:</strong> Block dates for maintenance or personal use</li>
+                    <li><strong>Modify Description:</strong> Highlight new features or recent upgrades</li>
+                </ul>
+            </div>
+
+            <div class="card" style="margin: 20px 0;">
+                <h5>📅 Calendar Management</h5>
+                <p>Manage your vehicle availability with our integrated calendar system:</p>
+                <div class="grid grid-2">
+                    <div>
+                        <h6><strong>Available Actions:</strong></h6>
+                        <ul>
+                            <li>Block dates for maintenance</li>
+                            <li>Set seasonal pricing</li>
+                            <li>View upcoming bookings</li>
+                            <li>Manage booking requests</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h6><strong>Calendar Features:</strong></h6>
+                        <ul>
+                            <li>Color-coded booking status</li>
+                            <li>Bulk date selection</li>
+                            <li>Recurring availability patterns</li>
+                            <li>Export to external calendars</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin: 20px 0;">
+                <h5>💰 Pricing Strategies</h5>
+                <p>Optimize your pricing to maximize revenue:</p>
+                <div class="grid grid-3">
+                    <div class="highlight-box">
+                        <h6><strong>Dynamic Pricing</strong></h6>
+                        <p>Adjust rates based on demand, season, and local events automatically.</p>
+                    </div>
+                    <div class="highlight-box success">
+                        <h6><strong>Discount Management</strong></h6>
+                        <p>Create promotional offers for early bookings, long-term rentals, or repeat customers.</p>
+                    </div>
+                    <div class="highlight-box warning">
+                        <h6><strong>Competitive Analysis</strong></h6>
+                        <p>View competitor pricing in your area to stay competitive.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Managing Bookings & Payments -->
+        <div class="section">
+            <h2>💳 5. Managing Bookings & Payments</h2>
+            
+            <h3>Booking Management</h3>
+            <p>Handle customer bookings efficiently with our automated system that manages the entire rental process.</p>
+
+            <div class="card" style="margin: 20px 0;">
+                <h4>Booking Workflow</h4>
+                <p>How bookings are processed on the platform:</p>
+                
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h5>Customer Makes Booking</h5>
+                        <p>Customer selects dates, completes payment, and submits booking request</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h5>Automatic Confirmation</h5>
+                        <p>System automatically confirms if vehicle is available (or requires your approval)</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h5>Notification Sent</h5>
+                        <p>Both you and customer receive booking confirmation with pickup details</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h5>Vehicle Handover</h5>
+                        <p>Meet customer at agreed location, complete vehicle inspection</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin: 20px 0;">
+                <h4>Booking Statuses</h4>
+                <ul class="status-list">
+                    <li class="status-item">
+                        <span>Pending</span>
+                        <span class="status-badge status-pending">Awaiting Approval</span>
+                    </li>
+                    <li class="status-item">
+                        <span>Confirmed</span>
+                        <span class="status-badge status-confirmed">Ready for Pickup</span>
+                    </li>
+                    <li class="status-item">
+                        <span>Active</span>
+                        <span class="status-badge status-active">Currently Rented</span>
+                    </li>
+                    <li class="status-item">
+                        <span>Completed</span>
+                        <span class="status-badge status-completed">Rental Finished</span>
+                    </li>
+                    <li class="status-item">
+                        <span>Cancelled</span>
+                        <span class="status-badge status-cancelled">Booking Cancelled</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card" style="margin: 20px 0;">
+                <h4>Payment Processing</h4>
+                <p>How payments work for vendors:</p>
+
+                <div class="highlight-box success">
+                    <h5>Payment Schedule:</h5>
+                    <div class="metrics">
+                        <div class="metric">
+                            <div class="metric-value">24h</div>
+                            <div class="metric-label">Payment Time</div>
+                            <div class="metric-desc">After pickup confirmation</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">85%</div>
+                            <div class="metric-label">Your Share</div>
+                            <div class="metric-desc">Of rental fee paid to you</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">15%</div>
+                            <div class="metric-label">Platform Fee</div>
+                            <div class="metric-desc">Platform commission</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h5>What's Included in Your Payment:</h5>
+                <ul>
+                    <li>Base rental fee (minus 15% commission)</li>
+                    <li>Additional services (GPS, child seats, etc.)</li>
+                    <li>Fuel charges (if applicable)</li>
+                    <li>Cleaning fees</li>
+                </ul>
+
+                <h5>Security Deposits:</h5>
+                <p>Security deposits are held separately and released according to your policy:</p>
+                <ul>
+                    <li>Held for duration of rental + 7 days</li>
+                    <li>Automatically released if no claims</li>
+                    <li>Partial deductions require photo evidence</li>
+                    <li>Dispute resolution available</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 6: Support & FAQ -->
+        <div class="section">
+            <h2>❓ 6. Support & FAQ</h2>
+            
+            <h3>Frequently Asked Questions</h3>
+            <p>Find answers to common questions about using the CarsReservation vendor platform.</p>
+
+            <div class="card" style="margin: 20px 0;">
+                <h4>Getting Started</h4>
+                <div style="margin: 15px 0;">
+                    <h5>How long does vendor approval take?</h5>
+                    <p>Typically 2-3 business days after submitting all required documents. We may contact you if additional information is needed.</p>
+                </div>
+                <hr style="margin: 15px 0; border: none; border-top: 1px solid #e5e7eb;">
+                <div style="margin: 15px 0;">
+                    <h5>What documents do I need to become a vendor?</h5>
+                    <p>Business license, insurance certificate, tax registration, government-issued ID, and vehicle registration documents for each car you want to list.</p>
+                </div>
+                <hr style="margin: 15px 0; border: none; border-top: 1px solid #e5e7eb;">
+                <div style="margin: 15px 0;">
+                    <h5>Is there a fee to join as a vendor?</h5>
+                    <p>No joining fee. We only charge a 15% commission on successful bookings. You keep 85% of the rental fee.</p>
+                </div>
+            </div>
+
+            <div class="card" style="margin: 20px 0;">
+                <h4>Managing Listings</h4>
+                <div style="margin: 15px 0;">
+                    <h5>How many cars can I list?</h5>
+                    <p>No limit. You can list as many vehicles as you have proper documentation for.</p>
+                </div>
+                <hr style="margin: 15px 0; border: none; border-top: 1px solid #e5e7eb;">
+                <div style="margin: 15px 0;">
+                    <h5>Can I modify my prices anytime?</h5>
+                    <p>Yes, you can update pricing anytime. Changes apply to new bookings immediately. Existing confirmed bookings maintain their original price.</p>
+                </div>
+                <hr style="margin: 15px 0; border: none; border-top: 1px solid #e5e7eb;">
+                <div style="margin: 15px 0;">
+                    <h5>What if my car needs maintenance?</h5>
+                    <p>Block the dates in your calendar. The system will automatically prevent new bookings during blocked periods.</p>
+                </div>
+            </div>
+
+            <div class="card" style="margin: 20px 0;">
+                <h4>Bookings & Payments</h4>
+                <div style="margin: 15px 0;">
+                    <h5>When do I get paid?</h5>
+                    <p>Payment is processed 24 hours after pickup confirmation. Funds are transferred to your registered bank account within 2-3 business days.</p>
+                </div>
+                <hr style="margin: 15px 0; border: none; border-top: 1px solid #e5e7eb;">
+                <div style="margin: 15px 0;">
+                    <h5>What if a customer damages my car?</h5>
+                    <p>Document damage with photos and report it through the platform. Security deposits can be used to cover damages. Our support team helps resolve disputes.</p>
+                </div>
+                <hr style="margin: 15px 0; border: none; border-top: 1px solid #e5e7eb;">
+                <div style="margin: 15px 0;">
+                    <h5>Can customers cancel bookings?</h5>
+                    <p>Yes, according to the cancellation policy you set. You can choose from flexible, moderate, or strict cancellation policies.</p>
+                </div>
+            </div>
+
+            <div class="card" style="margin: 20px 0;">
+                <h4>📞 Contact Support</h4>
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <h5>📧 Email Support</h5>
+                        <p class="contact-detail">vendors@carsreservation.com</p>
+                        <p class="contact-hours">Response within 24 hours</p>
+                    </div>
+                    <div class="contact-item">
+                        <h5>📱 Phone Support</h5>
+                        <p class="contact-detail">+387 33 123 456</p>
+                        <p class="contact-hours">Mon-Fri, 9:00-17:00 CET</p>
+                    </div>
+                    <div class="contact-item">
+                        <h5>💬 Live Chat</h5>
+                        <p class="contact-detail">Available in vendor dashboard</p>
+                        <p class="contact-hours">Mon-Fri, 9:00-17:00 CET</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-logo">
+                <div class="footer-logo-icon">🚗</div>
+                <span style="font-size: 1.2rem; font-weight: 600;">CarsReservation</span>
+            </div>
+            <p style="color: #6b7280; margin: 5px 0;">© 2025 CarsReservation. All rights reserved.</p>
+            <p style="color: #6b7280; margin: 5px 0;">Bosnia and Herzegovina</p>
+            <p style="color: #9ca3af; font-size: 0.9rem; margin-top: 15px;">This document contains confidential and proprietary information.</p>
+        </div>
+    </div>
+</body>
+</html>
